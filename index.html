@@ -6,22 +6,28 @@
 <title>AgroLynk - By Montque Global Pvt Ltd</title>
 <style>
 *{box-sizing:border-box;font-family:Arial,sans-serif}
-body{margin:0;background:#eef7ee}
+body{margin:0;background:#eef7ee;padding-bottom:80px}
 .top{background:#0a7a2f;color:#fff;padding:12px;display:flex;justify-content:space-between;align-items:center}
 .top b{font-size:22px} .top small{font-size:11px;display:block}
-.admin{background:#fff;color:#0a7a2f;padding:6px 12px;border-radius:20px;font-weight:bold}
+.admin{background:#fff;color:#0a7a2f;padding:6px 12px;border-radius:20px;font-weight:bold;cursor:pointer;border:0}
 .hero{background:#e8f5e9;margin:12px;border-radius:16px;padding:16px;display:flex;gap:10px}
 .hero h1{font-size:28px;line-height:1.1;margin:0}
 .hero p{color:#555}
-.btn{background:#0a7a2f;color:#fff;border:0;padding:10px 18px;border-radius:10px;font-weight:bold}
+.btn{background:#0a7a2f;color:#fff;border:0;padding:10px 18px;border-radius:10px;font-weight:bold;cursor:pointer;margin:2px}
+.btn2{background:#ff9800} .btnRed{background:#d32f2f}
 .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:0 12px}
 .card{background:#fff;border-radius:14px;padding:14px;text-align:center;font-weight:bold;cursor:pointer}
 .card span{font-size:30px;display:block}
 .box{background:#fff;margin:12px;border-radius:14px;padding:14px}
-input,textarea{width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;margin:6px 0}
-.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:10px;border-top:1px solid #ddd}
+input,textarea{width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;margin:6px 0;font-size:16px}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:12px;border-top:1px solid #ddd;z-index:99}
 .nav b{color:#0a7a2f}
-#aiAns{background:#f1f8e9;padding:12px;border-radius:10px;white-space:pre-wrap;min-height:60px}
+#aiAns{background:#f1f8e9;padding:12px;border-radius:10px;white-space:pre-wrap;min-height:80px;line-height:1.5}
+.tag{display:inline-block;background:#e8f5e9;color:#0a7a2f;padding:5px 10px;border-radius:20px;font-size:13px;margin:3px;cursor:pointer}
+/* ADMIN POPUP */
+#adminModal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:999;padding:15px;overflow:auto}
+#adminInner{background:#fff;border-radius:16px;padding:16px;max-width:500px;margin:20px auto}
+.stat{display:inline-block;background:#e8f5e9;padding:10px 14px;border-radius:12px;margin:4px;text-align:center}
 </style>
 </head>
 <body>
@@ -29,7 +35,7 @@ input,textarea{width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;
 <div class="top">
 <div><b>🌾 AgroLynk</b><small>By Montque Global Pvt Ltd</small></div>
 <div>📍 Sehore, MP<br>☀️ 28°C Sunny</div>
-<div class="admin">⚙️ Admin</div>
+<button class="admin" onclick="openAdmin()">⚙️ Admin</button>
 </div>
 
 <div class="hero">
@@ -41,7 +47,7 @@ input,textarea{width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;
 <div class="grid">
 <div class="card" onclick="alert('Buy Inputs - Jaldi aa raha hai')"><span>🛒</span>Buy Inputs</div>
 <div class="card" onclick="alert('Sell Produce - Jaldi aa raha hai')"><span>💰</span>Sell Produce</div>
-<div class="card" onclick="alert('Sehore Mandi: Gehu Rs 2750/Q, Soya Rs 4800/Q')"><span>🏛️</span>Live Mandi</div>
+<div class="card" onclick="askQuick('Mandi bhav kya hai')"><span>🏛️</span>Live Mandi</div>
 <div class="card" onclick="showAI()"><span>🤖</span>AI Advisor</div>
 <div class="card" onclick="alert('Aaj Mausam: Sunny 28°C, Baarish nahi hogi')"><span>🌤️</span>Weather</div>
 <div class="card" onclick="showAI()"><span>🌱</span>Crop Care</div>
@@ -50,54 +56,154 @@ input,textarea{width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;
 <div class="box" id="aiBox">
 <h2 style="margin:0">🤖 AI Advisor - Ab Asli AI</h2>
 <p style="margin:4px 0;color:#555">Likhkar, Bolkar ya Photo bhejkar puchiye - No Key, No Paisa</p>
-<textarea id="q" rows="2" placeholder="Ex: Gehu me peela pan aa gaya hai..."></textarea>
+<div>
+<span class="tag" onclick="askQuick('Gehu me pani kab chalaye')">💧 Gehu me pani?</span>
+<span class="tag" onclick="askQuick('Gehu me peela pan aa gaya hai')">💛 Peela pan?</span>
+<span class="tag" onclick="askQuick('Dhan me keeda hai')">🐛 Keeda?</span>
+<span class="tag" onclick="askQuick('Mandi bhav kya hai')">🏛️ Mandi Bhav?</span>
+<span class="tag" onclick="askQuick('Gehu ke liye khad kaun si dale')">🌱 Khad?</span>
+</div>
+<textarea id="q" rows="2" placeholder="Ex: Gehu me pani kab chalaye..."></textarea>
 <button class="btn" onclick="askAI()">Ask AI 🚀</button>
-<button class="btn" style="background:#ff9800" onclick="voiceAI()">🎤 Bolkar Puchiye</button>
+<button class="btn btn2" onclick="voiceAI()">🎤 Bolkar Puchiye</button>
 <p><input type="file" id="photo" accept="image/*"></p>
-<div id="aiAns">Yahan AI ka jawab aayega...</div>
-<p style="font-size:12px;color:#888">Mandi, Mausam, Keeda, Khad - Sab puch sakte ho</p>
+<div id="aiAns">Yahan AI ka jawab aayega...<br><br>Upar wale button dabao ya apna sawal likho.</div>
 </div>
 
-<div class="box"><b>🌾 Live Mandi - Sehore</b><br>Gehu: Rs 2750 / Qtl | Soya: Rs 4800 / Qtl<br>Chana: Rs 5400 / Qtl | Makka: Rs 2200 / Qtl</div>
-<div style="height:80px"></div>
+<div class="box"><b>🌾 Live Mandi - Sehore</b><br><span id="mandiShow">Gehu: Rs 2750 / Qtl | Soya: Rs 4800 / Qtl<br>Chana: Rs 5400 / Qtl | Makka: Rs 2200 / Qtl</span><br><small style="color:#888">Rate Admin Panel se badla ja sakta hai</small></div>
+<div class="box"><b>🌤️ Mausam - Sehore</b><br>Aaj: Sunny 28°C | Kal: Halki Baarish ho sakti hai</div>
+
 <div class="nav"><span><b>🏠 Home</b></span><span>🛒 Buy</span><span onclick="showAI()">🤖 AI</span><span>💰 Sell</span><span>👤 Account</span></div>
 
+<!-- ===== ADMIN PANEL ===== -->
+<div id="adminModal">
+<div id="adminInner">
+<div style="display:flex;justify-content:space-between"><h2 style="margin:0">⚙️ Admin Panel</h2><button class="btn btnRed" onclick="closeAdmin()">X Band Karo</button></div>
+<p style="color:#666">Montque Global Pvt Ltd • Sehore</p>
+
+<div id="loginBox">
+<p><b>Admin Password Dalo</b></p>
+<input type="password" id="adminPass" placeholder="Password: 1234">
+<button class="btn" onclick="checkAdmin()">Login Karo</button>
+<p style="font-size:12px;color:#888">Demo Password: 1234 (Baad me badal sakte ho)</p>
+</div>
+
+<div id="adminContent" style="display:none">
+<div><span class="stat"><b id="statUsers">128</b><br>Kisan</span><span class="stat"><b id="statOrders">42</b><br>Orders</span><span class="stat"><b>Rs <span id="statSale">1,25,000</span></b><br>Sale</span></div>
+
+<h3>🏛️ Mandi Rate Badlo</h3>
+Gehu Rate <input id="pGehu" type="number" value="2750">
+Soya Rate <input id="pSoya" type="number" value="4800">
+Chana Rate <input id="pChana" type="number" value="5400">
+Makka Rate <input id="pMakka" type="number" value="2200">
+<button class="btn" onclick="saveMandi()">✅ Mandi Rate Save Karo</button>
+<p id="saveMsg" style="color:green;font-weight:bold"></p>
+
+<h3>📢 Kisan ko Message Bhejo</h3>
+<textarea id="noticeText" rows="2" placeholder="Ex: Kal Mandi band rahegi..."></textarea>
+<button class="btn btn2" onclick="saveNotice()">📢 Notice Lagao</button>
+<p id="noticeShow" style="background:#fff3e0;padding:10px;border-radius:10px"></p>
+
+<h3>🧾 Naya Order Jodo</h3>
+<input id="newOrder" placeholder="Ex: Ramesh - Gehu 10 Qtl - Rs 27500">
+<button class="btn" onclick="addOrder()">➕ Order Jodo</button>
+<div id="orderList" style="margin-top:10px"></div>
+
+<button class="btn btnRed" onclick="logoutAdmin()">Logout</button>
+</div>
+</div>
+</div>
+
 <script>
-// ===== FREE AI - NO KEY, NO BILLING - MONTQUE GLOBAL =====
+// ===== ADMIN LOGIC =====
+function openAdmin(){ document.getElementById('adminModal').style.display='block'; }
+function closeAdmin(){ document.getElementById('adminModal').style.display='none'; }
+function checkAdmin(){
+  var p=document.getElementById('adminPass').value;
+  if(p==="1234"){
+    document.getElementById('loginBox').style.display='none';
+    document.getElementById('adminContent').style.display='block';
+    loadAdminData();
+  } else { alert('Galat Password! Password 1234 hai'); }
+}
+function logoutAdmin(){
+  document.getElementById('adminContent').style.display='none';
+  document.getElementById('loginBox').style.display='block';
+  document.getElementById('adminPass').value='';
+}
+function saveMandi(){
+  var g=document.getElementById('pGehu').value, s=document.getElementById('pSoya').value, c=document.getElementById('pChana').value, m=document.getElementById('pMakka').value;
+  var txt="Gehu: Rs "+g+" / Qtl | Soya: Rs "+s+" / Qtl<br>Chana: Rs "+c+" / Qtl | Makka: Rs "+m+" / Qtl";
+  document.getElementById('mandiShow').innerHTML=txt;
+  localStorage.setItem('mandi', txt);
+  localStorage.setItem('mandiVals', JSON.stringify({g:g,s:s,c:c,m:m}));
+  document.getElementById('saveMsg').innerText="✅ Ho gaya! Mandi Rate Home Page par badal gaya!";
+}
+function saveNotice(){
+  var t=document.getElementById('noticeText').value;
+  if(!t){alert('Pehle notice likho');return;}
+  document.getElementById('noticeShow').innerText="📢 NOTICE: "+t;
+  localStorage.setItem('notice', t);
+  alert('Notice lag gaya!');
+}
+function addOrder(){
+  var t=document.getElementById('newOrder').value;
+  if(!t){alert('Order likho');return;}
+  var list=JSON.parse(localStorage.getItem('orders')||'[]');
+  list.push(t); localStorage.setItem('orders', JSON.stringify(list));
+  document.getElementById('newOrder').value=''; renderOrders();
+}
+function renderOrders(){
+  var list=JSON.parse(localStorage.getItem('orders')||'["Ramesh - Gehu 10 Qtl - Rs 27500","Suresh - Soya 5 Qtl - Rs 24000"]');
+  var h=""; list.forEach(function(o){ h+="<div style='background:#f1f8e9;padding:8px;margin:4px;border-radius:8px'>🧾 "+o+"</div>"; });
+  document.getElementById('orderList').innerHTML=h;
+  document.getElementById('statOrders').innerText=list.length;
+}
+function loadAdminData(){
+  var vals=JSON.parse(localStorage.getItem('mandiVals')||'null');
+  if(vals){ document.getElementById('pGehu').value=vals.g; document.getElementById('pSoya').value=vals.s; document.getElementById('pChana').value=vals.c; document.getElementById('pMakka').value=vals.m; }
+  var mandi=localStorage.getItem('mandi'); if(mandi) document.getElementById('mandiShow').innerHTML=mandi;
+  var notice=localStorage.getItem('notice'); if(notice) document.getElementById('noticeShow').innerText="📢 NOTICE: "+notice;
+  renderOrders();
+}
+loadAdminData();
+
+// ===== AI LOGIC =====
 function showAI(){ document.getElementById('aiBox').scrollIntoView({behavior:'smooth'}); }
-
+function askQuick(t){ document.getElementById('q').value=t; askAI(); }
 async function askAI(){
-  var q = document.getElementById('q').value.trim();
-  if(!q){ alert('Pehle sawal likho'); return; }
-  var ansBox = document.getElementById('aiAns');
-  ansBox.innerText = "AI soch raha hai... 5 second ruko... 🤔";
+  var qRaw=document.getElementById('q').value.trim(); if(!qRaw){alert('Pehle sawal likho');return;}
+  var q=qRaw.toLowerCase(); var ansBox=document.getElementById('aiAns');
+  var offline=getOfflineJawab(q);
+  if(offline){ ansBox.innerText=offline+"\n\n--- AgroLynk AI • By Montque Global Pvt Ltd ---"; speak(offline); return; }
+  ansBox.innerText="AI soch raha hai... 5 second ruko... 🤔";
   try{
-    var prompt = "Tum AgroLynk ke Kisan AI Advisor ho, Montque Global Pvt Ltd ka App hai. Kisan ko Hindi Hinglish me bahut simple, short, step by step jawab do. Khad ka naam, matra per acre, aur savdhani batao. Sawal: " + q;
-    var res = await fetch("https://text.pollinations.ai/" + encodeURIComponent(prompt));
-    var text = await res.text();
-    if(!text) throw new Error("empty");
-    ansBox.innerText = text;
-    speak(text);
-  }catch(e){
-    ansBox.innerText = "OFFLINE SALAH (Internet slow hai):\n\n1. Mitti ki jaanch karwao\n2. Peela pan hai to Urea 25kg + Zinc 5kg per acre dalo\n3. Keeda hai to Neem Oil 450ml per acre spray karo\n4. Paani time par do, khet me paani na ruke\n\nPhir se Try dabao, AI chal jayega.";
-  }
+    var prompt="Tum AgroLynk ke Kisan AI Advisor ho, Montque Global Pvt Ltd ka App hai. Hindi Hinglish me simple jawab do. Sawal: "+qRaw;
+    var res=await fetch("https://text.pollinations.ai/"+encodeURIComponent(prompt)+"?seed="+Math.floor(Math.random()*100000));
+    var text=await res.text();
+    if(text.includes("Free limit")){ ansBox.innerText="Thoda rukiye! ⏳\nFree AI 45 second me 1 jawab deta hai.\n22 second baad phir se Ask AI dabao."; return; }
+    ansBox.innerText=text+"\n\n--- AgroLynk AI ---"; speak(text);
+  }catch(e){ ansBox.innerText="OFFLINE SALAH: Peela pan hai to Urea 25kg + Zinc 5kg per acre dalo. Keeda hai to Neem Oil 450ml spray karo."; }
 }
-
+function getOfflineJawab(q){
+  if(q.includes("pani")||q.includes("paani")||q.includes("sinchai")) return "🌾 GEHU ME PANI KAB CHALAYE:\n\n1. Pehla Pani: Buwai ke 21 din baad\n2. Dusra Pani: 42-45 din baad\n3. Teesra Pani: 65-75 din baad\n4. Chautha Pani: 90-95 din baad\n\nSAVDHANI: Mitti geeli ho to pani mat do, Shaam ko pani do";
+  if(q.includes("peela")||q.includes("pila")) return "🌾 GEHU PEELA PAN:\n\nKaran: Urea ya Zinc ki kami\nILAJ:\n1. Urea 25kg + Zinc Sulphate 5kg per acre dalo\n2. 19:19:19 ka spray 1kg per 100 litre pani me karo\n3. 7 din me hara ho jayega";
+  if(q.includes("keeda")||q.includes("kida")||q.includes("mah")||q.includes("sundi")) return "🐛 KEEDA KA ILAJ:\n\n1. Neem Oil 450ml per acre, 100 litre pani me spray karo\n2. 7 din baad phir spray karo\n3. Zyada keeda hai to Imidacloprid 100ml per acre dalo";
+  if(q.includes("khad")||q.includes("urea")||q.includes("dap")) return "🌱 KHAD - GEHU (Per Acre):\n\nBuwai par: DAP 50kg + Urea 25kg\n21 din baad: Urea 25kg\n45 din baad: Urea 25kg";
+  if(q.includes("mandi")||q.includes("bhav")||q.includes("rate")||q.includes("daam")){ var m=document.getElementById('mandiShow').innerText; return "🏛️ LIVE MANDI - SEHORE:\n\n"+m+"\n\nSALAHA: Mandi jaane se pehle phone karke bhav confirm kar lo."; }
+  if(q.includes("dhan")||q.includes("paddy")) return "🌾 DHAN KI DEKHBHAL:\n\n1. Paani 2-3 inch hi rakho\n2. Urea 30kg per acre, 2 baar me dalo\n3. Keeda dikhe to Neem Oil spray karo";
+  if(q.includes("soya")) return "🌱 SOYA KI DEKHBHAL:\n\n1. Buwai ke 30 din baad nirai\n2. Paani 25 din aur 50 din par do\n3. Peela pan aaye to Zinc spray karo";
+  if(q.includes("mausam")||q.includes("baarish")||q.includes("barish")) return "🌤️ MAUSAM - SEHORE:\n\nAaj: Sunny 28°C, Baarish nahi hogi\nKal: Halki baarish ho sakti hai";
+  return null;
+}
 function voiceAI(){
-  if(!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)){ alert('Is phone me Voice support nahi hai, likhkar puchiye'); return; }
-  var Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
-  var r = new Rec(); r.lang='hi-IN'; r.start();
-  document.getElementById('aiAns').innerText = "Sun raha hu... Bolo... 🎤";
-  r.onresult = function(e){ document.getElementById('q').value = e.results[0][0].transcript; askAI(); };
+  if(!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)){alert('Is phone me Voice nahi hai');return;}
+  var Rec=window.SpeechRecognition||window.webkitSpeechRecognition; var r=new Rec(); r.lang='hi-IN'; r.start();
+  document.getElementById('aiAns').innerText="Sun raha hu... Bolo... 🎤";
+  r.onresult=function(e){ document.getElementById('q').value=e.results[0][0].transcript; askAI(); };
 }
-
-function speak(t){
-  try{ var u = new SpeechSynthesisUtterance(t.substring(0,300)); u.lang='hi-IN'; speechSynthesis.speak(u); }catch(e){}
-}
-
-document.getElementById('photo').addEventListener('change', function(){
-  document.getElementById('aiAns').innerText = "Photo mil gayi! Photo AI ke liye Gemini Key chahiye, isliye abhi Text se batao - Photo me kya dikh raha hai? Peela pan, keeda, ya daag? Likhkar bhejo, AI turant ilaj batayega.";
-});
+function speak(t){ try{ var u=new SpeechSynthesisUtterance(t.substring(0,300)); u.lang='hi-IN'; speechSynthesis.speak(u); }catch(e){} }
+document.getElementById('photo').addEventListener('change', function(){ document.getElementById('aiAns').innerText="Photo mil gayi! 📸\n\nPhoto me kya dikh raha hai? Peela pan, Keeda, ya Daag? Likhkar bhejo, AI turant ilaj batayega."; });
 </script>
 </body>
 </html>
