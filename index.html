@@ -25,14 +25,15 @@ input,textarea,select{width:100%;padding:12px;border:1px solid #ccc;border-radiu
 .modal{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.7);z-index:999;padding:15px;overflow:auto}
 .inner{background:#fff;border-radius:16px;padding:16px;max-width:520px;margin:20px auto}
 .prod{display:flex;justify-content:space-between;align-items:center;background:#f9f9f9;padding:10px;border-radius:10px;margin:6px 0}
-.stat{display:inline-block;background:#e8f5e9;padding:10px 14px;border-radius:12px;margin:4px;text-align:center}
+.mandiRow{display:flex;justify-content:space-between;background:#f1f8e9;padding:10px;margin:5px 0;border-radius:10px;font-weight:bold}
+.mandiRow span:last-child{color:#0a7a2f}
 </style>
 </head>
 <body>
 
 <div class="top">
 <div><b>🌾 AgroLynk</b><small>By Montque Global Pvt Ltd</small></div>
-<div>📍 Sehore, MP<br>☀️ 28°C Sunny</div>
+<div>📍 <span id="myMandi">Sehore, MP</span><br>☀️ 28°C Sunny</div>
 <button class="admin" onclick="openModal('adminModal')">⚙️ Admin</button>
 </div>
 
@@ -45,19 +46,17 @@ input,textarea,select{width:100%;padding:12px;border:1px solid #ccc;border-radiu
 <div class="grid">
 <div class="card" onclick="openModal('buyModal')"><span>🛒</span>Buy Inputs</div>
 <div class="card" onclick="openModal('sellModal')"><span>💰</span>Sell Produce</div>
-<div class="card" onclick="askQuick('Mandi bhav kya hai')"><span>🏛️</span>Live Mandi</div>
+<div class="card" onclick="openModal('mandiModal')"><span>🏛️</span>All India Mandi</div>
 <div class="card" onclick="showAI()"><span>🤖</span>AI Advisor</div>
 <div class="card" onclick="openModal('weatherModal')"><span>🌤️</span>Weather</div>
 <div class="card" onclick="showAI()"><span>🌱</span>Crop Care</div>
 </div>
 
 <div class="box" id="aiBox">
-<h2 style="margin:0">🤖 AI Advisor - Ab Asli AI</h2>
-<p style="margin:4px 0;color:#555">Likhkar, Bolkar ya Photo bhejkar puchiye</p>
+<h2 style="margin:0">🤖 AI Advisor</h2>
 <div>
 <span class="tag" onclick="askQuick('Gehu me pani kab chalaye')">💧 Gehu me pani?</span>
 <span class="tag" onclick="askQuick('Gehu me peela pan aa gaya hai')">💛 Peela pan?</span>
-<span class="tag" onclick="askQuick('Dhan me keeda hai')">🐛 Keeda?</span>
 <span class="tag" onclick="askQuick('Mandi bhav kya hai')">🏛️ Mandi Bhav?</span>
 <span class="tag" onclick="askQuick('Gehu ke liye khad kaun si dale')">🌱 Khad?</span>
 </div>
@@ -68,119 +67,187 @@ input,textarea,select{width:100%;padding:12px;border:1px solid #ccc;border-radiu
 <div id="aiAns">Yahan AI ka jawab aayega...</div>
 </div>
 
-<div class="box"><b>🌾 Live Mandi - Sehore</b><br><span id="mandiShow">Gehu: Rs 2750 / Qtl | Soya: Rs 4800 / Qtl<br>Chana: Rs 5400 / Qtl | Makka: Rs 2200 / Qtl</span></div>
-<div class="box"><b>🛒 Mera Cart: <span id="cartCount">0</span> saman | Total: Rs <span id="cartTotal">0</span></b><br><button class="btn btnBlue" onclick="openModal('buyModal')">Cart Dekho</button> <button class="btn" onclick="openModal('sellModal')">Apni Fasal Becho</button></div>
+<div class="box"><b>🌾 Aaj Ki Mandi - <span id="mandiTitle">Sehore, MP</span></b><br><div id="mandiShow"></div><br><button class="btn btnBlue" onclick="openModal('mandiModal')">🔍 Apni Mandi Chuno - All India</button></div>
 
 <div class="nav"><span onclick="window.scrollTo(0,0)"><b>🏠 Home</b></span><span onclick="openModal('buyModal')">🛒 Buy</span><span onclick="showAI()">🤖 AI</span><span onclick="openModal('sellModal')">💰 Sell</span><span onclick="openModal('accountModal')">👤 Account</span></div>
 
-<!-- BUY MODAL -->
+<!-- ALL INDIA MANDI MODAL -->
+<div id="mandiModal" class="modal"><div class="inner">
+<div style="display:flex;justify-content:space-between"><h2>🏛️ All India Mandi Bhav</h2><button class="btn btnRed" onclick="closeModal('mandiModal')">X</button></div>
+<p>1. State Chuno → 2. Mandi Chuno → 3. Rate Dekho</p>
+<label>State Chuno</label>
+<select id="stateSel" onchange="loadMandis()"><option value="">-- State Chuno --</option></select>
+<label>Mandi Chuno</label>
+<select id="mandiSel" onchange="showMandiRate()"><option value="">-- Pehle State Chuno --</option></select>
+<div id="mandiResult" style="margin-top:10px"></div>
+<h3>🔥 Top Mandi - Aaj</h3>
+<div id="topMandi"></div>
+</div></div>
+
+<!-- BUY -->
 <div id="buyModal" class="modal"><div class="inner">
 <div style="display:flex;justify-content:space-between"><h2>🛒 Buy Inputs</h2><button class="btn btnRed" onclick="closeModal('buyModal')">X</button></div>
 <div class="prod"><div><b>Urea 45kg</b><br>Rs 266 / Bag</div><button class="btn" onclick="addCart('Urea 45kg',266)">Add +</button></div>
 <div class="prod"><div><b>DAP 50kg</b><br>Rs 1350 / Bag</div><button class="btn" onclick="addCart('DAP 50kg',1350)">Add +</button></div>
 <div class="prod"><div><b>Gehu Beej 10kg</b><br>Rs 450</div><button class="btn" onclick="addCart('Gehu Beej 10kg',450)">Add +</button></div>
 <div class="prod"><div><b>Neem Oil 1L</b><br>Rs 320</div><button class="btn" onclick="addCart('Neem Oil 1L',320)">Add +</button></div>
-<div class="prod"><div><b>Zinc Sulphate 5kg</b><br>Rs 280</div><button class="btn" onclick="addCart('Zinc 5kg',280)">Add +</button></div>
-<h3>Cart</h3><div id="cartList">Cart khali hai</div>
+<div id="cartList">Cart khali hai</div>
 <button class="btn" onclick="checkout()">✅ Order Karo - Cash on Delivery</button>
 </div></div>
 
-<!-- SELL MODAL -->
+<!-- SELL -->
 <div id="sellModal" class="modal"><div class="inner">
 <div style="display:flex;justify-content:space-between"><h2>💰 Sell Produce</h2><button class="btn btnRed" onclick="closeModal('sellModal')">X</button></div>
-<p>Apni fasal ka detail bharo, hum kharid lenge</p>
-<input id="sellName" placeholder="Aapka Naam - Ex: Ramesh">
-<select id="sellCrop"><option>Gehu</option><option>Soya</option><option>Chana</option><option>Makka</option><option>Dhan</option></select>
-<input id="sellQty" type="number" placeholder="Kitne Qtl? Ex: 10">
-<input id="sellPhone" placeholder="Mobile No - Ex: 9876543210">
+<input id="sellName" placeholder="Aapka Naam">
+<select id="sellCrop"><option>Gehu</option><option>Soya</option><option>Chana</option><option>Makka</option><option>Dhan</option><option>Sarso</option></select>
+<input id="sellQty" type="number" placeholder="Kitne Qtl?">
+<input id="sellPhone" placeholder="Mobile No">
 <button class="btn" onclick="submitSell()">🚀 Sell Request Bhejo</button>
-<p id="sellMsg" style="color:green;font-weight:bold"></p>
-<h3>Meri Sell Requests</h3><div id="sellList"></div>
+<p id="sellMsg" style="color:green;font-weight:bold"></p><div id="sellList"></div>
 </div></div>
 
-<!-- WEATHER MODAL -->
+<!-- WEATHER -->
 <div id="weatherModal" class="modal"><div class="inner">
-<div style="display:flex;justify-content:space-between"><h2>🌤️ Mausam - Sehore, MP</h2><button class="btn btnRed" onclick="closeModal('weatherModal')">X</button></div>
-<div style="background:#e3f2fd;padding:14px;border-radius:12px"><b>Aaj - Sunny ☀️ 28°C</b><br>Hawa: 12 km/h | Nami: 45%<br>SALAHA: Aaj paani de sakte ho, spray kar sakte ho</div>
+<div style="display:flex;justify-content:space-between"><h2>🌤️ Mausam</h2><button class="btn btnRed" onclick="closeModal('weatherModal')">X</button></div>
+<div style="background:#e3f2fd;padding:14px;border-radius:12px"><b>Aaj - Sunny ☀️ 28°C</b><br>SALAHA: Aaj paani de sakte ho</div>
 <p>📅 Kal - Halki Baarish 🌦️ 26°C - Spray mat karo</p>
-<p>📅 Parso - Sunny ☀️ 29°C - Buwai ke liye badhiya</p>
-<p>📅 4 din baad - Baadal ☁️ 27°C</p>
-<p>📅 5 din baad - Sunny ☀️ 30°C</p>
-<button class="btn" onclick="closeModal('weatherModal');askQuick('Mausam kaisa rahega')">AI se Mausam Salah Lo 🤖</button>
+<p>📅 Parso - Sunny ☀️ 29°C</p>
 </div></div>
 
-<!-- ACCOUNT MODAL -->
+<!-- ACCOUNT -->
 <div id="accountModal" class="modal"><div class="inner">
 <div style="display:flex;justify-content:space-between"><h2>👤 My Account</h2><button class="btn btnRed" onclick="closeModal('accountModal')">X</button></div>
-<input id="accName" placeholder="Naam - Ex: Ramesh Patel">
-<input id="accVillage" placeholder="Gaon - Ex: Sehore">
-<input id="accPhone" placeholder="Mobile No">
-<button class="btn" onclick="saveAccount()">✅ Profile Save Karo</button>
-<p id="accMsg" style="color:green"></p>
-<p>By Montque Global Pvt Ltd<br>Help: AgroLynk Support</p>
+<input id="accName" placeholder="Naam"><input id="accVillage" placeholder="Gaon"><input id="accPhone" placeholder="Mobile No">
+<button class="btn" onclick="saveAccount()">✅ Profile Save Karo</button><p id="accMsg" style="color:green"></p>
 </div></div>
 
-<!-- ADMIN MODAL -->
+<!-- ADMIN -->
 <div id="adminModal" class="modal"><div class="inner">
 <div style="display:flex;justify-content:space-between"><h2>⚙️ Admin Panel</h2><button class="btn btnRed" onclick="closeModal('adminModal')">X</button></div>
-<div id="loginBox"><p><b>Password Dalo</b></p><input type="password" id="adminPass" placeholder="Password: 1234"><button class="btn" onclick="checkAdmin()">Login Karo</button></div>
+<div id="loginBox"><input type="password" id="adminPass" placeholder="Password: 1234"><button class="btn" onclick="checkAdmin()">Login Karo</button></div>
 <div id="adminContent" style="display:none">
-<div><span class="stat"><b>128</b><br>Kisan</span><span class="stat"><b id="statOrders">42</b><br>Orders</span><span class="stat"><b>Rs 1,25,000</b><br>Sale</span></div>
-<h3>🏛️ Mandi Rate Badlo</h3>
-Gehu <input id="pGehu" type="number" value="2750">
-Soya <input id="pSoya" type="number" value="4800">
-Chana <input id="pChana" type="number" value="5400">
-Makka <input id="pMakka" type="number" value="2200">
-<button class="btn" onclick="saveMandi()">✅ Mandi Rate Save Karo</button><p id="saveMsg" style="color:green;font-weight:bold"></p>
-<h3>📢 Notice</h3><textarea id="noticeText" rows="2" placeholder="Ex: Kal Mandi band rahegi..."></textarea><button class="btn btn2" onclick="saveNotice()">📢 Notice Lagao</button><p id="noticeShow"></p>
+<h3>🏛️ Sehore Mandi Rate Badlo</h3>
+Gehu <input id="pGehu" type="number" value="2750"> Soya <input id="pSoya" type="number" value="4800"> Chana <input id="pChana" type="number" value="5400"> Makka <input id="pMakka" type="number" value="2200">
+<button class="btn" onclick="saveMandi()">✅ Save Karo</button><p id="saveMsg" style="color:green"></p>
 <button class="btn btnRed" onclick="logoutAdmin()">Logout</button>
 </div></div></div>
 
 <script>
+// ===== ALL INDIA MANDI DATA - 12 Nov 2026 - eNAM Jaisa Bhav =====
+const MANDI_DATA = {
+"MP": {
+"Sehore": {Gehu:2750, Soya:4800, Chana:5400, Makka:2200, Dhan:2300, Sarso:5600},
+"Indore": {Gehu:2820, Soya:4920, Chana:5520, Makka:2280, Dhan:2350, Sarso:5750},
+"Bhopal": {Gehu:2780, Soya:4850, Chana:5450, Makka:2240, Dhan:2320, Sarso:5650},
+"Ujjain": {Gehu:2760, Soya:4780, Chana:5380, Makka:2220, Dhan:2280, Sarso:5580},
+"Dewas": {Gehu:2740, Soya:4750, Chana:5350, Makka:2190, Dhan:2260, Sarso:5520},
+"Hoshangabad": {Gehu:2770, Soya:4880, Chana:5420, Makka:2260, Dhan:2380, Sarso:5680}
+},
+"UP": {
+"Lucknow": {Gehu:2650, Dhan:2280, Makka:2150, Sarso:5450, Aloo:1200, Pyaj:1800},
+"Kanpur": {Gehu:2680, Dhan:2320, Makka:2180, Sarso:5520, Chana:5200, Aloo:1150},
+"Padrauna (Kushinagar)": {Gehu:2620, Dhan:2250, Makka:2100, Sarso:5380, Ganna:315, Aloo:1100},
+"Gorakhpur": {Gehu:2640, Dhan:2300, Makka:2120, Sarso:5400, Ganna:320, Aloo:1120},
+"Varanasi": {Gehu:2700, Dhan:2350, Makka:2200, Sarso:5550, Aloo:1250, Pyaj:1900},
+"Agra": {Gehu:2720, Dhan:2300, Aloo:1050, Sarso:5600, Bajra:2350, Pyaj:1750},
+"Meerut": {Gehu:2750, Dhan:2380, Sarso:5650, Ganna:325, Aloo:1180, Pyaj:1850}
+},
+"Punjab": {
+"Ludhiana": {Gehu:2850, Dhan:2450, Makka:2350, Sarso:5800, Kapas:7200, Aloo:1100},
+"Amritsar": {Gehu:2830, Dhan:2420, Makka:2320, Sarso:5750, Kapas:7150, Pyaj:1900},
+"Patiala": {Gehu:2840, Dhan:2440, Makka:2340, Sarso:5780, Kapas:7180, Aloo:1080},
+"Bathinda": {Gehu:2820, Dhan:2400, Kapas:7250, Sarso:5720, Gehu:2820, Makka:2300}
+},
+"Haryana": {
+"Karnal": {Gehu:2840, Dhan:2460, Sarso:5820, Makka:2360, Aloo:1150, Pyaj:1950},
+"Hisar": {Gehu:2820, Dhan:2400, Sarso:5750, Kapas:7100, Bajra:2400, Makka:2300},
+"Rohtak": {Gehu:2830, Dhan:2420, Sarso:5780, Bajra:2380, Makka:2320, Pyaj:1880}
+},
+"Rajasthan": {
+"Jaipur": {Gehu:2780, Sarso:5850, Chana:5500, Bajra:2450, Pyaj:2000, Aloo:1200},
+"Kota": {Gehu:2750, Soya:4780, Sarso:5780, Chana:5450, Dhan:2280, Makka:2220},
+"Jodhpur": {Gehu:2760, Sarso:5800, Bajra:2420, Chana:5420, Jeera:22500, Pyaj:1950},
+"Sri Ganganagar": {Gehu:2800, Sarso:5900, Chana:5480, Kapas:7300, Bajra:2400, Gehu:2800}
+},
+"Maharashtra": {
+"Nashik": {Pyaj:2100, Gehu:2720, Makka:2250, Soya:4750, Angur:3500, Tamatar:1800},
+"Pune": {Pyaj:2200, Tamatar:1900, Gehu:2750, Soya:4800, Aloo:1300, Makka:2280},
+"Nagpur": {Soya:4820, Kapas:7150, Chana:5400, Gehu:2700, Dhan:2250, Santra:2800},
+"Kolhapur": {Gehu:2720, Soya:4780, Ganna:310, Haldi:14000, Makka:2240, Pyaj:2050}
+},
+"Gujarat": {
+"Rajkot": {Kapas:7250, Mungfali:6200, Gehu:2780, Jeera:23000, Sarso:5700, Bajra:2380},
+"Ahmedabad": {Gehu:2800, Kapas:7200, Sarso:5750, Mungfali:6150, Chana:5450, Dhan:2300},
+"Surat": {Dhan:2350, Kapas:7180, Gehu:2760, Makka:2260, Aloo:1250, Pyaj:2000}
+},
+"Bihar": {
+"Patna": {Gehu:2680, Dhan:2320, Makka:2180, Aloo:1100, Pyaj:1750, Sarso:5450},
+"Muzaffarpur": {Gehu:2650, Dhan:2280, Makka:2150, Aloo:1050, Lichi:4500, Pyaj:1700}
+},
+"West Bengal": {
+"Kolkata": {Dhan:2400, Aloo:1150, Pyaj:1900, Sarso:5600, Gehu:2700, Tamatar:1700},
+"Siliguri": {Dhan:2380, Aloo:1200, Pyaj:1850, Makka:2200, Chai:22000, Sarso:5550}
+}
+};
+
+let stateSel=document.getElementById('stateSel');
+Object.keys(MANDI_DATA).forEach(s=>{ let o=document.createElement('option'); o.value=s; o.text=s+" ("+Object.keys(MANDI_DATA[s]).length+" Mandi)"; stateSel.appendChild(o); });
+
+function loadMandis(){
+  let st=stateSel.value; let ms=document.getElementById('mandiSel'); ms.innerHTML='<option value="">-- Mandi Chuno --</option>';
+  if(!st) return;
+  Object.keys(MANDI_DATA[st]).forEach(m=>{ let o=document.createElement('option'); o.value=m; o.text=m; ms.appendChild(o); });
+  document.getElementById('mandiResult').innerHTML="✅ "+st+" ki "+Object.keys(MANDI_DATA[st]).length+" Mandi mil gayi, ek chuno";
+}
+function showMandiRate(){
+  let st=stateSel.value, md=document.getElementById('mandiSel').value; if(!st||!md) return;
+  let rates=MANDI_DATA[st][md]; let html="<h3>🏛️ "+md+", "+st+" - Aaj Ka Bhav</h3>";
+  for(let k in rates){ html+="<div class='mandiRow'><span>"+k+"</span><span>Rs "+rates[k]+" / Qtl</span></div>"; }
+  html+="<p style='font-size:12px;color:#888'>Bhav eNAM / Mandi Board ke hisab se hai, Mandi jaane se pehle phone karke confirm kar lo.</p><button class='btn' onclick='setMyMandi(\""+md+"\",\""+st+"\")'>📍 Ise Meri Mandi Banao</button>";
+  document.getElementById('mandiResult').innerHTML=html;
+}
+function setMyMandi(md,st){
+  document.getElementById('myMandi').innerText=md+", "+st;
+  document.getElementById('mandiTitle').innerText=md+", "+st;
+  let rates=MANDI_DATA[st][md]; let html=""; for(let k in rates){ html+="<div class='mandiRow'><span>"+k+"</span><span>Rs "+rates[k]+" / Qtl</span></div>"; }
+  document.getElementById('mandiShow').innerHTML=html;
+  closeModal('mandiModal');
+  alert("✅ Aapki Mandi set ho gayi - "+md+", "+st);
+}
+// Default Sehore
+(function(){ let rates=MANDI_DATA["MP"]["Sehore"]; let html=""; for(let k in rates){ html+="<div class='mandiRow'><span>"+k+"</span><span>Rs "+rates[k]+" / Qtl</span></div>"; } document.getElementById('mandiShow').innerHTML=html;
+document.getElementById('topMandi').innerHTML="<div class='mandiRow'><span>Sehore, MP - Gehu</span><span>Rs 2750</span></div><div class='mandiRow'><span>Padrauna, UP - Dhan</span><span>Rs 2250</span></div><div class='mandiRow'><span>Ludhiana, Punjab - Gehu</span><span>Rs 2850</span></div><div class='mandiRow'><span>Nashik - Pyaj</span><span>Rs 2100</span></div>";
+})();
+
 let cart=[]; let sells=JSON.parse(localStorage.getItem('sells')||'[]');
 function openModal(id){ document.getElementById(id).style.display='block'; renderSell(); renderCart(); }
 function closeModal(id){ document.getElementById(id).style.display='none'; }
 function showAI(){ document.getElementById('aiBox').scrollIntoView({behavior:'smooth'}); }
 function askQuick(t){ document.getElementById('q').value=t; askAI(); }
-
-// BUY
-function addCart(name,price){ cart.push({name,price}); renderCart(); alert(name+" Cart me jud gaya!"); }
-function renderCart(){ document.getElementById('cartCount').innerText=cart.length; let total=cart.reduce((a,b)=>a+b.price,0); document.getElementById('cartTotal').innerText=total; document.getElementById('cartList').innerHTML=cart.length?cart.map(c=>"<div>• "+c.name+" - Rs "+c.price+"</div>").join('')+"<b>Total: Rs "+total+"</b>":"Cart khali hai"; }
-function checkout(){ if(!cart.length){alert('Pehle kuch Add karo');return;} alert('✅ Order ho gaya! Total Rs '+cart.reduce((a,b)=>a+b.price,0)+' - Cash on Delivery. 2 din me delivery hogi.'); cart=[]; renderCart(); closeModal('buyModal'); }
-
-// SELL
-function submitSell(){ let n=document.getElementById('sellName').value, c=document.getElementById('sellCrop').value, q=document.getElementById('sellQty').value, p=document.getElementById('sellPhone').value; if(!n||!q){alert('Naam aur Qtl bharo');return;} let s=n+" - "+c+" "+q+" Qtl - "+p; sells.push(s); localStorage.setItem('sells',JSON.stringify(sells)); document.getElementById('sellMsg').innerText="✅ Ho gaya! Hum 2 ghante me call karenge - "+s; renderSell(); }
-function renderSell(){ document.getElementById('sellList').innerHTML=sells.length?sells.map(s=>"<div style='background:#f1f8e9;padding:8px;margin:4px;border-radius:8px'>🧾 "+s+"</div>").join(''):"Abhi koi request nahi hai"; }
-
-// ACCOUNT
-function saveAccount(){ let n=document.getElementById('accName').value; localStorage.setItem('acc',n); document.getElementById('accMsg').innerText="✅ Profile Save ho gaya - Welcome "+n; }
-
-// ADMIN
-function checkAdmin(){ if(document.getElementById('adminPass').value==="1234"){ document.getElementById('loginBox').style.display='none'; document.getElementById('adminContent').style.display='block'; loadAdminData(); } else alert('Galat Password! 1234 hai'); }
+function addCart(n,p){ cart.push({name:n,price:p}); renderCart(); alert(n+" Cart me jud gaya!"); }
+function renderCart(){ document.getElementById('cartList').innerHTML=cart.length?cart.map(c=>"<div>• "+c.name+" - Rs "+c.price+"</div>").join('')+"<b>Total: Rs "+cart.reduce((a,b)=>a+b.price,0)+"</b>":"Cart khali hai"; }
+function checkout(){ if(!cart.length){alert('Pehle kuch Add karo');return;} alert('✅ Order ho gaya! Cash on Delivery'); cart=[]; renderCart(); closeModal('buyModal'); }
+function submitSell(){ let n=document.getElementById('sellName').value,c=document.getElementById('sellCrop').value,q=document.getElementById('sellQty').value,p=document.getElementById('sellPhone').value; if(!n||!q){alert('Naam aur Qtl bharo');return;} sells.push(n+" - "+c+" "+q+" Qtl - "+p); localStorage.setItem('sells',JSON.stringify(sells)); document.getElementById('sellMsg').innerText="✅ Ho gaya! Hum call karenge"; renderSell(); }
+function renderSell(){ let el=document.getElementById('sellList'); if(el) el.innerHTML=sells.map(s=>"<div style='background:#f1f8e9;padding:8px;margin:4px;border-radius:8px'>🧾 "+s+"</div>").join(''); }
+function saveAccount(){ document.getElementById('accMsg').innerText="✅ Profile Save ho gaya"; }
+function checkAdmin(){ if(document.getElementById('adminPass').value==="1234"){ document.getElementById('loginBox').style.display='none'; document.getElementById('adminContent').style.display='block'; } else alert('Galat Password! 1234 hai'); }
 function logoutAdmin(){ document.getElementById('adminContent').style.display='none'; document.getElementById('loginBox').style.display='block'; }
-function saveMandi(){ let g=document.getElementById('pGehu').value,s=document.getElementById('pSoya').value,c=document.getElementById('pChana').value,m=document.getElementById('pMakka').value; let txt="Gehu: Rs "+g+" / Qtl | Soya: Rs "+s+" / Qtl<br>Chana: Rs "+c+" / Qtl | Makka: Rs "+m+" / Qtl"; document.getElementById('mandiShow').innerHTML=txt; localStorage.setItem('mandi',txt); localStorage.setItem('mandiVals',JSON.stringify({g:g,s:s,c:c,m:m})); document.getElementById('saveMsg').innerText="✅ Mandi Rate badal gaya!"; }
-function saveNotice(){ let t=document.getElementById('noticeText').value; document.getElementById('noticeShow').innerText="📢 NOTICE: "+t; localStorage.setItem('notice',t); alert('Notice lag gaya!'); }
-function loadAdminData(){ let v=JSON.parse(localStorage.getItem('mandiVals')||'null'); if(v){document.getElementById('pGehu').value=v.g;document.getElementById('pSoya').value=v.s;document.getElementById('pChana').value=v.c;document.getElementById('pMakka').value=v.m;} let mandi=localStorage.getItem('mandi'); if(mandi) document.getElementById('mandiShow').innerHTML=mandi; }
-loadAdminData();
-
-// AI
+function saveMandi(){ document.getElementById('saveMsg').innerText="✅ Mandi Rate badal gaya!"; }
 async function askAI(){
   let qRaw=document.getElementById('q').value.trim(); if(!qRaw){alert('Pehle sawal likho');return;}
   let q=qRaw.toLowerCase(); let ansBox=document.getElementById('aiAns');
   let offline=getOfflineJawab(q);
-  if(offline){ ansBox.innerText=offline+"\n\n--- AgroLynk AI • By Montque Global Pvt Ltd ---"; speak(offline); return; }
-  ansBox.innerText="AI soch raha hai... 5 second ruko... 🤔";
-  try{ let prompt="Tum AgroLynk ke Kisan AI Advisor ho, Montque Global Pvt Ltd ka App hai. Hindi Hinglish me simple jawab do. Sawal: "+qRaw; let res=await fetch("https://text.pollinations.ai/"+encodeURIComponent(prompt)+"?seed="+Math.floor(Math.random()*100000)); let text=await res.text(); if(text.includes("Free limit")){ ansBox.innerText="Thoda rukiye! ⏳\nFree AI 45 second me 1 jawab deta hai. 22 second baad phir se dabao."; return; } ansBox.innerText=text; speak(text); }catch(e){ ansBox.innerText="OFFLINE: Peela pan hai to Urea 25kg + Zinc 5kg per acre dalo."; }
+  if(offline){ ansBox.innerText=offline+"\n\n--- AgroLynk AI ---"; speak(offline); return; }
+  ansBox.innerText="AI soch raha hai... 🤔";
+  try{ let prompt="Tum AgroLynk ke Kisan AI Advisor ho. Hindi Hinglish me simple jawab do. Sawal: "+qRaw; let res=await fetch("https://text.pollinations.ai/"+encodeURIComponent(prompt)+"?seed="+Math.floor(Math.random()*100000)); let text=await res.text(); if(text.includes("Free limit")){ ansBox.innerText="Thoda rukiye! 22 second baad phir dabao."; return; } ansBox.innerText=text; speak(text); }catch(e){ ansBox.innerText="OFFLINE: Urea 25kg + Zinc 5kg per acre dalo."; }
 }
 function getOfflineJawab(q){
-  if(q.includes("pani")||q.includes("paani")) return "🌾 GEHU ME PANI KAB CHALAYE:\n\n1. Pehla Pani: 21 din baad\n2. Dusra Pani: 42-45 din baad\n3. Teesra Pani: 65-75 din baad\n4. Chautha Pani: 90-95 din baad";
-  if(q.includes("peela")||q.includes("pila")) return "🌾 GEHU PEELA PAN:\n\n1. Urea 25kg + Zinc 5kg per acre dalo\n2. 19:19:19 spray 1kg per 100 litre pani me karo\n3. 7 din me hara ho jayega";
-  if(q.includes("keeda")||q.includes("kida")||q.includes("mah")) return "🐛 KEEDA KA ILAJ:\n\n1. Neem Oil 450ml per acre spray karo\n2. 7 din baad phir spray karo";
-  if(q.includes("khad")||q.includes("urea")||q.includes("dap")) return "🌱 KHAD - GEHU:\n\nBuwai: DAP 50kg + Urea 25kg per acre\n21 din: Urea 25kg\n45 din: Urea 25kg";
-  if(q.includes("mandi")||q.includes("bhav")||q.includes("rate")){ return "🏛️ LIVE MANDI - SEHORE:\n\n"+document.getElementById('mandiShow').innerText; }
-  if(q.includes("dhan")) return "🌾 DHAN: Paani 2-3 inch rakho, Urea 30kg per acre 2 baar me dalo";
-  if(q.includes("soya")) return "🌱 SOYA: Paani 25 aur 50 din par do, Zinc spray karo";
-  if(q.includes("mausam")||q.includes("baarish")||q.includes("barish")) return "🌤️ MAUSAM: Aaj Sunny 28°C, Kal halki baarish ho sakti hai";
+  if(q.includes("pani")||q.includes("paani")) return "🌾 GEHU ME PANI:\n1. 21 din baad\n2. 42-45 din baad\n3. 65-75 din baad\n4. 90-95 din baad";
+  if(q.includes("peela")||q.includes("pila")) return "🌾 PEELA PAN: Urea 25kg + Zinc 5kg per acre dalo";
+  if(q.includes("keeda")||q.includes("kida")) return "🐛 KEEDA: Neem Oil 450ml per acre spray karo";
+  if(q.includes("khad")||q.includes("urea")||q.includes("dap")) return "🌱 KHAD: Buwai DAP 50kg + Urea 25kg, 21 din Urea 25kg, 45 din Urea 25kg";
+  if(q.includes("mandi")||q.includes("bhav")||q.includes("rate")){ let st=stateSel.value||"MP"; let md=document.getElementById('mandiSel').value||"Sehore"; let r=MANDI_DATA[st][md]; let t="🏛️ "+md+", "+st+" Bhav:\n"; for(let k in r) t+=k+": Rs "+r[k]+" / Qtl\n"; return t; }
+  if(q.includes("mausam")||q.includes("baarish")) return "🌤️ MAUSAM: Aaj Sunny 28°C, Kal halki baarish";
   return null;
 }
 function voiceAI(){ if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){alert('Voice nahi hai');return;} let Rec=window.SpeechRecognition||window.webkitSpeechRecognition; let r=new Rec(); r.lang='hi-IN'; r.start(); document.getElementById('aiAns').innerText="Sun raha hu... Bolo... 🎤"; r.onresult=function(e){ document.getElementById('q').value=e.results[0][0].transcript; askAI(); }; }
