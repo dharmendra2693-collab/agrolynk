@@ -1,145 +1,103 @@
 <!DOCTYPE html>
-<html lang="hi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AgroLynk - by Montque Global Pvt Ltd</title>
-<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0E7A2E">
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgroLynk - By Montque Global Pvt Ltd</title>
 <style>
-*{box-sizing:border-box;margin:0;padding:0;font-family:Arial}body{background:#F2F7F2;padding-bottom:10px}
-.top{background:#fff;padding:10px;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px #0001}
-.logo{font-size:20px;font-weight:900;color:#0E7A2E;line-height:1}.logo small{font-size:9px;color:#888;font-weight:400;display:block}
-.pill{flex:1;background:#F1F1F1;border-radius:20px;padding:7px 8px;font-size:12px;text-align:center}
-.btn{background:#0E7A2E;color:#fff;border:none;padding:11px 16px;border-radius:8px;font-weight:bold;cursor:pointer}
-.btn2{background:#E8F5E9;color:#0E7A2E;border:1px solid #0E7A2E;padding:8px 12px;border-radius:20px;font-size:12px;font-weight:bold;cursor:pointer}
-.btnRed{background:#FFEAEA;color:#D00;border:1px solid #FFB3B3;padding:6px 12px;border-radius:20px;cursor:pointer}
-.btnGreen{background:#E8F5E9;color:#0E7A2E;border:1px solid #0E7A2E;padding:6px 12px;border-radius:20px;cursor:pointer}
-.search{margin:10px;background:#fff;border:1px solid #ddd;border-radius:12px;padding:12px;display:flex;gap:8px}.search input{border:none;outline:none;flex:1}
-.hero{margin:0 10px;background:#E8F5E9;border-radius:18px;overflow:hidden;display:flex}.hero-text{padding:16px;flex:1.2}.hero-text h1{font-size:24px;line-height:1.1}.hero-text p{font-size:12px;color:#555;margin:8px 0}
-.hero-img{flex:1;background:url('https://images.unsplash.com/photo-1500937386664-56d1dfef3854?w=600') center/cover;min-height:150px}
-.sec{padding:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.qitem{background:#fff;border-radius:14px;padding:12px 4px;text-align:center;font-size:12px;cursor:pointer}.qitem div{font-size:24px}
-.prod{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.pcard{background:#fff;border-radius:14px;overflow:hidden}.pcard img{width:100%;height:100px;object-fit:cover}.pcard div{padding:10px}
-.add{width:100%;background:#0E7A2E;color:#fff;border:none;padding:8px;border-radius:8px;font-weight:bold;cursor:pointer;margin-top:6px}
-.page{display:none;padding:0 10px 10px}.page.active{display:block}
-.list-item{background:#fff;border-radius:14px;padding:12px;display:flex;gap:10px;margin-bottom:10px;align-items:center}.list-item img{width:50px;height:50px;border-radius:10px;object-fit:cover}
-.input{width:100%;padding:12px;border:1.5px solid #ddd;border-radius:12px;margin:6px 0}.chip{display:inline-block;background:#E8F5E9;padding:7px 12px;border-radius:20px;font-size:12px;margin:3px;cursor:pointer}.chip.active{background:#0E7A2E;color:#fff}
-.bottom{background:#fff;display:flex;justify-content:space-around;padding:10px 0;border-top:1px solid #eee;position:sticky;bottom:0}.bottom button{background:none;border:none;font-size:11px;color:#777;cursor:pointer}.bottom button.active{color:#0E7A2E;font-weight:bold}
-.card{background:#fff;border-radius:14px;padding:14px;margin-bottom:12px}.table{width:100%;background:#fff;border-radius:12px}.table td,.table th{padding:10px 6px;font-size:13px;text-align:left;border-bottom:1px solid #eee}
-.badge{background:#E8F5E9;color:#0E7A2E;padding:3px 8px;border-radius:20px;font-size:11px}
-.aiBox{background:#EAF6EC;border-radius:14px;padding:14px;margin:10px 0}.micBtn{width:56px;height:56px;border-radius:50%;background:#FF6B00;color:#fff;border:none;font-size:24px;cursor:pointer}
-</style></head><body>
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#eef7ee}
+.top{background:#0a7a2f;color:#fff;padding:12px;display:flex;justify-content:space-between;align-items:center}
+.top b{font-size:22px} .top small{font-size:11px;display:block}
+.admin{background:#fff;color:#0a7a2f;padding:6px 12px;border-radius:20px;font-weight:bold}
+.hero{background:#e8f5e9;margin:12px;border-radius:16px;padding:16px;display:flex;gap:10px}
+.hero h1{font-size:28px;line-height:1.1;margin:0}
+.hero p{color:#555}
+.btn{background:#0a7a2f;color:#fff;border:0;padding:10px 18px;border-radius:10px;font-weight:bold}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:0 12px}
+.card{background:#fff;border-radius:14px;padding:14px;text-align:center;font-weight:bold;cursor:pointer}
+.card span{font-size:30px;display:block}
+.box{background:#fff;margin:12px;border-radius:14px;padding:14px}
+input,textarea{width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;margin:6px 0}
+.nav{position:fixed;bottom:0;left:0;right:0;background:#fff;display:flex;justify-content:space-around;padding:10px;border-top:1px solid #ddd}
+.nav b{color:#0a7a2f}
+#aiAns{background:#f1f8e9;padding:12px;border-radius:10px;white-space:pre-wrap;min-height:60px}
+</style>
+</head>
+<body>
 
-<div class="top"><div class="logo">🌾 AgroLynk<small>By Montque Global Pvt Ltd</small></div><div class="pill">📍 Sehore, MP</div><div style="font-size:12px;font-weight:bold;text-align:center">☀️ 28°C<br><small style="font-weight:400">Sunny</small></div><button class="btn2" onclick="showPage('adminLogin')">⚙️ Admin</button></div>
-
-<!-- HOME -->
-<div id="home" class="page active">
-<div class="search"><span>🔍</span><input id="searchInput" placeholder="Search for crops..." oninput="searchProd()"><span>🎤</span></div>
-<div class="hero"><div class="hero-text"><h1>Grow Better.<br>Sell Better.<br>Earn Better.</h1><p>India's Smart Agri Marketplace<br><b>By Montque Global Pvt Ltd</b></p><button class="btn" onclick="showPage('buy')">Explore Now</button></div><div class="hero-img"></div></div>
-<div class="sec"><h3>Quick Access</h3><br><div class="grid3">
-<div class="qitem" onclick="showPage('buy')"><div>🛒</div>Buy Inputs</div>
-<div class="qitem" onclick="showPage('sell')"><div>💰</div>Sell Produce</div>
-<div class="qitem" onclick="showPage('mandi')"><div>🏛️</div>Live Mandi</div>
-<div class="qitem" onclick="showPage('ai')"><div>🤖</div>AI Advisor</div>
-<div class="qitem" onclick="showPage('weather')"><div>🌤️</div>Weather</div>
-<div class="qitem" onclick="showPage('crop')"><div>🌱</div>Crop Care</div></div></div>
-<div class="sec"><div class="card"><h3>🤖 AI Advisor - Ab Asli AI</h3><p style="font-size:12px">Likhkar, Bolkar ya Photo bhejkar puchiye</p><br><button class="btn" onclick="showPage('ai')">AI se Baat Karo →</button></div>
-<div class="card"><h3>Live Mandi - Wheat</h3><p id="mandiMini">Sehore - ₹2,350 / Quintal ↑ 5.4%</p><button class="btn2" onclick="showPage('mandi')">View All Rates</button></div></div>
-<div class="sec"><h3>Recommended for You</h3><br><div class="prod" id="homeProd"></div></div>
+<div class="top">
+<div><b>🌾 AgroLynk</b><small>By Montque Global Pvt Ltd</small></div>
+<div>📍 Sehore, MP<br>☀️ 28°C Sunny</div>
+<div class="admin">⚙️ Admin</div>
 </div>
 
-<!-- BUY -->
-<div id="buy" class="page"><h2>Buy</h2><br>
-<span class="chip active" onclick="filterCat('All',this)">All</span><span class="chip" onclick="filterCat('Seeds',this)">🌱 Seeds</span><span class="chip" onclick="filterCat('Fertilizer',this)">🧪 Fertilizer</span><span class="chip" onclick="filterCat('Pesticide',this)">🧴 Pesticide</span><br><br>
-<div class="prod" id="buyProd"></div>
-<div id="cartBox" class="card" style="display:none;background:#111;color:#fff;margin-top:12px"><span id="cartText"></span><br><b id="cartTotal"></b><br><br><button class="btn" onclick="placeOrder()">Checkout →</button></div></div>
-
-<!-- SELL -->
-<div id="sell" class="page"><h2>Sell</h2><br><div class="card" style="text-align:center"><div style="font-size:40px">🧺</div><h3>Create New Listing</h3><p style="font-size:12px">Add details and list your produce</p><br><button class="btn" onclick="showPage('post')">Create Listing</button></div><div id="myList"></div></div>
-
-<!-- POST -->
-<div id="post" class="page"><h2>Post Ad</h2><br><div class="card"><h3>🌾 Apni Fasal Becho</h3><input class="input" id="newCrop" placeholder="Fasal - jaise Gehu"><input class="input" id="newQty" placeholder="Kitna Quintal?"><input class="input" id="newPrice" placeholder="Price ₹ / Quintal"><button class="btn" style="width:100%" onclick="addListing()">+ Listing Bhejo</button></div><div id="postList"></div></div>
-
-<!-- MANDI -->
-<div id="mandi" class="page"><h2>Mandi Prices</h2><br><table class="table"><tr><th>Fasal</th><th>Price</th><th>Change</th></tr><tbody id="mandiUserTable"></tbody></table><p style="font-size:11px;margin-top:8px">Admin Panel se update hota hai</p>
-<div class="card"><h3>📊 AI Market Prediction</h3><p style="font-size:13px">Gehu ka rate agle 10 din me badhne ki sambhavna hai. Agar jaldi nahi hai to 10 din ruk jao.</p><button class="btn2" onclick="askPrediction()">AI se Prediction Puchho</button><p id="predAns" style="display:none;background:#FFF8E6;padding:10px;border-radius:10px;margin-top:10px"></p></div></div>
-
-<!-- AI - FULL -->
-<div id="ai" class="page"><h2>🤖 AI Advisor - Montque Global</h2>
-<div class="aiBox"><h3>Hi Farmer! 👋</h3><p style="font-size:13px">Likhkar, Bolkar ya Photo bhejkar puchiye</p></div>
-
-<div class="card"><h3>1️⃣ Likhkar Puchho - Text AI</h3><input class="input" id="aiInput" placeholder="Gehu me peela pan aa gaya hai..."><button class="btn" style="width:100%" onclick="askAI()">Ask AI →</button>
-<p id="aiAns" style="display:none;background:#F0F8EC;padding:12px;border-radius:10px;margin-top:10px;white-space:pre-wrap"></p></div>
-
-<div class="card" style="text-align:center"><h3>2️⃣ Bolkar Puchho - Voice AI</h3><p style="font-size:12px">Mic dabao, bolo, AI bolkar jawab dega</p><br><button class="micBtn" onclick="startVoice()">🎤</button><p id="voiceText" style="font-size:13px;margin-top:10px;color:#555">Mic dabakar bolo...</p><button class="btn2" onclick="speakAI(document.getElementById('aiAns').innerText)">🔊 Jawab Suno</button></div>
-
-<div class="card"><h3>3️⃣ Photo Bhejo - Crop Doctor 📸</h3><p style="font-size:12px">Fasal ki photo lo, AI bimari batayega</p><input type="file" id="cropImg" accept="image/*" onchange="previewCrop()" style="margin:10px 0"><br><img id="cropPreview" style="width:100%;border-radius:12px;display:none;max-height:220px;object-fit:cover"><br><button class="btn" style="width:100%;background:#FF6B00" onclick="askCropDoctor()">🩺 Photo se Bimari Jaancho</button><p id="cropAns" style="display:none;background:#FFF3E0;padding:12px;border-radius:10px;margin-top:10px;white-space:pre-wrap"></p></div>
-
-<div class="grid3"><div class="qitem" onclick="quickAsk('Gehu me keeda hai, kya karu?')"><div>🐛</div>Keeda</div><div class="qitem" onclick="quickAsk('Dhan me khad kab dalu?')"><div>🧪</div>Khad</div><div class="qitem" onclick="quickAsk('Kal mausam kaisa rahega, dawa chhidku ya nahi?')"><div>🌧️</div>Mausam</div></div><br>
-<div class="card"><h3>📈 Mandi Prediction</h3><button class="btn2" onclick="askPrediction()">Gehu kab bechu?</button></div>
+<div class="hero">
+<div><h1>Grow Better.<br>Sell Better.<br>Earn Better.</h1><p>India's Smart Agri Marketplace<br><b>By Montque Global Pvt Ltd</b></p><button class="btn" onclick="showAI()">Explore Now</button></div>
+<div style="font-size:80px">🌾</div>
 </div>
 
-<!-- WEATHER -->
-<div id="weather" class="page"><h2>Weather - Sehore</h2><br><div class="card" style="text-align:center;background:#E3F2FD"><div style="font-size:50px">☀️</div><h1>28°C</h1><p>Sunny | H:32° L:18°</p><p>Humidity 45% | Wind 12 km/h | Rain 10%</p></div><div class="card"><b>🤖 AI Weather Salah:</b><br><span id="weatherAI">Kal barish ki 10% sambhavna hai, aaj dawa chhidak sakte ho.</span><br><br><button class="btn2" onclick="askWeatherAI()">AI se Mausam Puchho</button></div></div>
-
-<!-- CROP -->
-<div id="crop" class="page"><h2>Crop Care</h2><br><div class="grid3"><div class="qitem"><div>🌾</div>Wheat</div><div class="qitem"><div>🌾</div>Rice</div><div class="qitem"><div>🌽</div>Maize</div><div class="qitem"><div>🫘</div>Soybean</div><div class="qitem"><div>🌱</div>Cotton</div><div class="qitem"><div>🎋</div>Sugarcane</div></div><br><div id="careList"></div></div>
-
-<!-- ACCOUNT -->
-<div id="account" class="page"><div class="card"><b>Ramesh Yadav</b><br><span style="color:green;font-size:12px">✓ Verified Farmer</span><br><small>Sehore, MP | 10 Acre Farm</small><br><small>By Montque Global Pvt Ltd</small></div><div class="card">👤 My Profile<br><br>📋 My Listings<br><br>📦 My Orders<br><br>💰 Payments & Wallet<br><br>🔔 Notifications<br><br>⚙️ Settings</div></div>
-
-<!-- ADMIN LOGIN -->
-<div id="adminLogin" class="page"><div class="card" style="text-align:center;margin-top:20px"><div style="font-size:40px">🌾</div><h2>AgroLynk Admin</h2><p style="font-size:12px">Montque Global Pvt Ltd<br>ID: admin | Password: 1234</p><input class="input" id="uid" value="admin"><input class="input" id="pass" type="password" value="1234"><button class="btn" style="width:100%" onclick="doLogin()">Login → Dashboard</button><p id="loginErr" style="color:red;display:none;margin-top:8px">Galat ID / Password</p><br><button class="btn2" onclick="showPage('home')">← Back to App</button></div></div>
-
-<!-- ADMIN PANEL -->
-<div id="adminPanel" class="page">
-<div class="card" style="background:#0B3D1F;color:#fff;display:flex;justify-content:space-between"><div><b>🌾 AgroLynk Admin</b><br><small>Montque Global Pvt Ltd</small></div><button class="btn2" onclick="showPage('home')">Logout</button></div>
-<div class="card"><b>💰 Aaj ki Sale:</b> ₹1,28,450 &nbsp; | &nbsp; <b>📦 Orders:</b> <span id="totalOrders">1284</span> &nbsp; | &nbsp; <b>👨‍🌾 Farmers:</b> 10,482</div>
-<div class="card"><h3>➕ Naya Product Add Karo</h3><input class="input" id="pName" placeholder="Product Naam"><input class="input" id="pPrice" type="number" placeholder="Price ₹"><input class="input" id="pUnit" placeholder="Unit - Bag / Kg"><button class="btn" onclick="addProduct()">+ Add Product</button></div>
-<div class="card"><h3>🛒 Sab Products</h3><table class="table"><tr><th>Product</th><th>Price</th><th>Action</th></tr><tbody id="prodTable"></tbody></table></div>
-<div class="card"><h3>📦 Orders</h3><table class="table"><tr><th>Order</th><th>Product</th><th>Amount</th><th>Status</th></tr><tbody id="orderTable"></tbody></table></div>
-<div class="card"><h3>🌾 Farmer Listings</h3><table class="table"><tr><th>Farmer</th><th>Fasal</th><th>Price</th><th>Status</th><th>Action</th></tr><tbody id="listingTable"></tbody></table></div>
-<div class="card"><h3>🏛️ Mandi Price Badlo</h3><table class="table"><tr><th>Fasal</th><th>Rate</th><th>Naya Rate</th><th>Action</th></tr><tbody id="mandiTable"></tbody></table></div>
-<button class="btn2" onclick="showPage('home')">← Back to User App</button></div>
-
-<div class="bottom">
-<button class="active" onclick="showPage('home',this)">🏠<br>Home</button>
-<button onclick="showPage('buy',this)">🛒<br>Buy</button>
-<button onclick="showPage('ai',this)">🤖<br>AI</button>
-<button onclick="showPage('sell',this)">💰<br>Sell</button>
-<button onclick="showPage('account',this)">👤<br>Account</button>
+<div style="padding:0 12px"><b>Quick Access</b></div>
+<div class="grid">
+<div class="card" onclick="alert('Buy Inputs - Jaldi aa raha hai')"><span>🛒</span>Buy Inputs</div>
+<div class="card" onclick="alert('Sell Produce - Jaldi aa raha hai')"><span>💰</span>Sell Produce</div>
+<div class="card" onclick="alert('Sehore Mandi: Gehu Rs 2750/Q, Soya Rs 4800/Q')"><span>🏛️</span>Live Mandi</div>
+<div class="card" onclick="showAI()"><span>🤖</span>AI Advisor</div>
+<div class="card" onclick="alert('Aaj Mausam: Sunny 28°C, Baarish nahi hogi')"><span>🌤️</span>Weather</div>
+<div class="card" onclick="showAI()"><span>🌱</span>Crop Care</div>
 </div>
+
+<div class="box" id="aiBox">
+<h2 style="margin:0">🤖 AI Advisor - Ab Asli AI</h2>
+<p style="margin:4px 0;color:#555">Likhkar, Bolkar ya Photo bhejkar puchiye - No Key, No Paisa</p>
+<textarea id="q" rows="2" placeholder="Ex: Gehu me peela pan aa gaya hai..."></textarea>
+<button class="btn" onclick="askAI()">Ask AI 🚀</button>
+<button class="btn" style="background:#ff9800" onclick="voiceAI()">🎤 Bolkar Puchiye</button>
+<p><input type="file" id="photo" accept="image/*"></p>
+<div id="aiAns">Yahan AI ka jawab aayega...</div>
+<p style="font-size:12px;color:#888">Mandi, Mausam, Keeda, Khad - Sab puch sakte ho</p>
+</div>
+
+<div class="box"><b>🌾 Live Mandi - Sehore</b><br>Gehu: Rs 2750 / Qtl | Soya: Rs 4800 / Qtl<br>Chana: Rs 5400 / Qtl | Makka: Rs 2200 / Qtl</div>
+<div style="height:80px"></div>
+<div class="nav"><span><b>🏠 Home</b></span><span>🛒 Buy</span><span onclick="showAI()">🤖 AI</span><span>💰 Sell</span><span>👤 Account</span></div>
 
 <script>
-// ===== CONFIG - YAHAN API KEY DALO =====
-var GEMINI_KEY = "AQ.Ab8RN6I04jsjsT_2CEhGaCOBxir8Zsg21fDq7iC5TZBKQrX5Lg"; // aistudio.google.com se lo
-// ==========================================
+// ===== FREE AI - NO KEY, NO BILLING - MONTQUE GLOBAL =====
+function showAI(){ document.getElementById('aiBox').scrollIntoView({behavior:'smooth'}); }
 
-var products=[
-{id:1,name:"Wheat Seeds PBW 550",cat:"Seeds",price:1280,unit:"40 Kg",img:"https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?w=400"},
-{id:2,name:"DAP Fertilizer",cat:"Fertilizer",price:1350,unit:"Bag 50 Kg",img:"https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400"},
-{id:3,name:"Neem Pesticide",cat:"Pesticide",price:450,unit:"Litre",img:"https://images.unsplash.com/photo-1589923188900-85dae523342b?w=400"},
-{id:4,name:"Zinc Sulphate",cat:"Fertilizer",price:680,unit:"Kg",img:"https://images.unsplash.com/photo-1615729947596-a598e5de0ab3?w=400"},
-{id:5,name:"Hybrid Maize Seeds",cat:"Seeds",price:750,unit:"Pack",img:"https://images.unsplash.com/photo-1551754655-cd27e38d2076?w=400"},
-{id:6,name:"NPK 19:19:19",cat:"Fertilizer",price:1250,unit:"Bag 50 Kg",img:"https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=400"}];
-var mandis=[{name:"Wheat (गेहूं)",rate:2350,change:"↑ 5.4%"},{name:"Rice (धान)",rate:2900,change:"↑ 3.2%"},{name:"Maize (मक्का)",rate:1850,change:"↓ 1.6%"},{name:"Soybean (सोयाबीन)",rate:4100,change:"↑ 2.7%"},{name:"Tur (अरहर)",rate:6800,change:"↑ 1.8%"},{name:"Gram (चना)",rate:5200,change:"↓ 0.9%"}];
-var orders=[{id:"#1284",prod:"DAP 2 Bag",amt:2700,status:"Delivered"},{id:"#1283",prod:"Wheat Seeds 5 Pack",amt:6400,status:"Pending"}];
-var listings=[{farmer:"Ramesh, Sehore",crop:"Wheat",price:"₹2,350",status:"Active"},{farmer:"Aman, Padrauna",crop:"Soybean",price:"₹4,100",status:"Pending"}];
-var cart=[]; var currentCat="All"; var cropBase64="";
-function showPage(id,btn){var pages=document.querySelectorAll('.page');for(var i=0;i<pages.length;i++){pages[i].classList.remove('active');}document.getElementById(id).classList.add('active');var btns=document.querySelectorAll('.bottom button');for(var j=0;j<btns.length;j++){btns[j].classList.remove('active');}if(btn){btn.classList.add('active');}window.scrollTo(0,0);}
-function renderProd(){var f=products.filter(function(p){return currentCat=="All"||p.cat==currentCat;});var html="";for(var i=0;i<f.length;i++){html+='<div class="pcard"><img src="'+f[i].img+'"><div><b>'+f[i].name+'</b><br><small>'+f[i].cat+'</small><div><b>₹'+f[i].price+' / '+f[i].unit+'</b></div><button class="add" onclick="addCart('+f[i].id+')">Add</button></div></div>';}document.getElementById('homeProd').innerHTML=html;document.getElementById('buyProd').innerHTML=html;}
-function filterCat(cat,el){currentCat=cat;var chips=document.querySelectorAll('.chip');for(var i=0;i<chips.length;i++){chips[i].classList.remove('active');}if(el){el.classList.add('active');}renderProd();showPage('buy');}
-function searchProd(){var q=document.getElementById('searchInput').value.toLowerCase();var f=products.filter(function(p){return p.name.toLowerCase().indexOf(q)>-1;});var html="";for(var i=0;i<f.length;i++){html+='<div class="pcard"><img src="'+f[i].img+'"><div><b>'+f[i].name+'</b><div>₹'+f[i].price+'</div><button class="add" onclick="addCart('+f[i].id+')">Add</button></div></div>';}document.getElementById('homeProd').innerHTML=html||'<p>No result</p>';}
-function addCart(id){var p=null;for(var i=0;i<products.length;i++){if(products[i].id==id){p=products[i];}}cart.push(p);var total=0;for(var j=0;j<cart.length;j++){total+=cart[j].price;}document.getElementById('cartBox').style.display='block';document.getElementById('cartText').innerText='🛒 '+cart.length+' items - '+p.name+' added';document.getElementById('cartTotal').innerText='Total ₹'+total;}
-function placeOrder(){var total=0;for(var i=0;i<cart.length;i++){total+=cart[i].price;}var nid="#"+(1285+orders.length);orders.unshift({id:nid,prod:cart[0].name,amt:total,status:"Pending"});renderAdmin();alert('Order Placed ✅ ID: '+nid+' Total ₹'+total);cart=[];document.getElementById('cartBox').style.display='none';}
-function doLogin(){var u=document.getElementById('uid').value;var p=document.getElementById('pass').value;if(u=='admin'&&p=='1234'){showPage('adminPanel');}else{document.getElementById('loginErr').style.display='block';}}
-function addListing(){var c=document.getElementById('newCrop').value;var pr=document.getElementById('newPrice').value;if(!c){alert('Fasal ka Naam bharo');return;}listings.unshift({farmer:"Ramesh, Sehore (You)",crop:c,price:"₹"+pr,status:"Pending"});renderAdmin();alert('Listing Admin ko bhej di ✅');}
-function addProduct(){var n=document.getElementById('pName').value;var pr=document.getElementById('pPrice').value;var un=document.getElementById('pUnit').value||'Unit';if(!n||!pr){alert('Naam aur Price bharo');return;}products.unshift({id:products.length+100,name:n,cat:"Fertilizer",price:parseInt(pr),unit:un,img:"https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400"});renderProd();renderAdmin();alert('Product Add ✅');}
-function renderAdmin(){
-var oh="";for(var i=0;i<orders.length;i++){oh+='<tr><td><b>'+orders[i].id+'</b></td><td>'+orders[i].prod+'</td><td>₹'+orders[i].amt+'</td><td>'+orders[i].status+'</td></tr>';}document.getElementById('orderTable').innerHTML=oh;
-var ph="";for(var i=0;i<products.length;i++){ph+='<tr><td>'+products[i].name+'</td><td>₹'+products[i].price+'</td><td><button class="btn2" onclick="delProd('+products[i].id+')">Delete</button></td></tr>';}document.getElementById('prodTable').innerHTML=ph;
-var lh="";for(var i=0;i<listings.length;i++){lh+='<tr><td>'+listings[i].farmer+'</td><td>'+listings[i].crop+'</td><td>'+listings[i].price+'</td><td>'+listings[i].status+'</td><td><button class="btn2" onclick="approveListing('+i+')">Approve</button></td></tr>';}document.getElementById('listingTable').innerHTML=lh;
-var mh="";for(var i=0;i<mandis.length;i++){mh+='<tr><td><b>'+mandis[i].name+'</b></td><td>₹'+mandis[i].rate+'</td><td><input class="input" id="mandi-'+i+'" value="'+mandis[i].rate+'" style="margin:0;padding:8px"></td><td><button class="btn2" onclick="updateMandi('+i+')">Update</button></td></tr>';}document.getElementById('mandiTable').innerHTML=mh;
-var mu="";for(var i=0;i<mandis.length;i++){mu+='<tr><td>'+mandis[i].name+'</td><td><b>₹'+mandis[i].rate+'</b></td><td>'+mandis[i].change+'</td></tr>';}document.getElementById('mandiUserTable').innerHTML=mu;
-document.getElementById('mandiMini').innerText='Sehore - ₹'+mandis[0].rate+' / Quintal '+mandis[0].change;
-document.getElementById('totalOrders').innerText=1284+orders.length-2;
+async function askAI(){
+  var q = document.getElementById('q').value.trim();
+  if(!q){ alert('Pehle sawal likho'); return; }
+  var ansBox = document.getElementById('aiAns');
+  ansBox.innerText = "AI soch raha hai... 5 second ruko... 🤔";
+  try{
+    var prompt = "Tum AgroLynk ke Kisan AI Advisor ho, Montque Global Pvt Ltd ka App hai. Kisan ko Hindi Hinglish me bahut simple, short, step by step jawab do. Khad ka naam, matra per acre, aur savdhani batao. Sawal: " + q;
+    var res = await fetch("https://text.pollinations.ai/" + encodeURIComponent(prompt));
+    var text = await res.text();
+    if(!text) throw new Error("empty");
+    ansBox.innerText = text;
+    speak(text);
+  }catch(e){
+    ansBox.innerText = "OFFLINE SALAH (Internet slow hai):\n\n1. Mitti ki jaanch karwao\n2. Peela pan hai to Urea 25kg + Zinc 5kg per acre dalo\n3. Keeda hai to Neem Oil 450ml per acre spray karo\n4. Paani time par do, khet me paani na ruke\n\nPhir se Try dabao, AI chal jayega.";
+  }
 }
-function delProd(id){var np=[];for(var i=0;i<products.length;i++){if(products[i].id!=id){np.push(products[i]);}}products=np;renderProd();renderAdmin();}
-function approveListing(i){listings[i].
+
+function voiceAI(){
+  if(!('webkitSpeechRecognition' in window || 'SpeechRecognition' in window)){ alert('Is phone me Voice support nahi hai, likhkar puchiye'); return; }
+  var Rec = window.SpeechRecognition || window.webkitSpeechRecognition;
+  var r = new Rec(); r.lang='hi-IN'; r.start();
+  document.getElementById('aiAns').innerText = "Sun raha hu... Bolo... 🎤";
+  r.onresult = function(e){ document.getElementById('q').value = e.results[0][0].transcript; askAI(); };
+}
+
+function speak(t){
+  try{ var u = new SpeechSynthesisUtterance(t.substring(0,300)); u.lang='hi-IN'; speechSynthesis.speak(u); }catch(e){}
+}
+
+document.getElementById('photo').addEventListener('change', function(){
+  document.getElementById('aiAns').innerText = "Photo mil gayi! Photo AI ke liye Gemini Key chahiye, isliye abhi Text se batao - Photo me kya dikh raha hai? Peela pan, keeda, ya daag? Likhkar bhejo, AI turant ilaj batayega.";
+});
+</script>
+</body>
+</html>
