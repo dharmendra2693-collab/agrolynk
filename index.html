@@ -64,7 +64,7 @@ input,textarea,select{width:100%;padding:12px;border:1px solid #ccc;border-radiu
 </div>
 
 <div class="box" id="aiBox">
-<h2 style="margin:0">🤖 Khetiwa AI Advisor</h2>
+<h2 style="margin:0">🤖 Khetiwa AI Advisor - Gemini</h2>
 <div>
 <span class="tag" onclick="askQuick('Gehu me pani kab chalaye')">💧 Gehu me pani?</span>
 <span class="tag" onclick="askQuick('Gehu me peela pan aa gaya hai')">💛 Peela pan?</span>
@@ -75,7 +75,7 @@ input,textarea,select{width:100%;padding:12px;border:1px solid #ccc;border-radiu
 <button class="btn" onclick="askAI()">Ask AI 🚀</button>
 <button class="btn btn2" onclick="voiceAI()">🎤 Bolkar Puchiye</button>
 <p><input type="file" id="photo" accept="image/*"></p>
-<div id="aiAns">Namaste! Main Khetiwa AI hu. Kuch bhi pucho...</div>
+<div id="aiAns">Namaste! Main Khetiwa AI hu. Gemini se jawab dunga. Kuch bhi pucho...</div>
 </div>
 
 <div class="box"><b>🌾 Aaj Ki Mandi - <span id="mandiTitle">Padrauna, UP</span></b><br>
@@ -150,20 +150,17 @@ input,textarea,select{width:100%;padding:12px;border:1px solid #ccc;border-radiu
 <div id="weatherModal" class="modal"><div class="inner"><div style="display:flex;justify-content:space-between"><h2>🌤️ Mausam</h2><button class="btn btnRed" onclick="closeModal('weatherModal')">X</button></div><div style="background:#e3f2fd;padding:14px;border-radius:12px"><b>Aaj - Sunny ☀️ 28°C</b><br>Aaj paani de sakte ho</div><p>📅 Kal - Halki Baarish 🌦️ 26°C</p><p>📅 Parso - Sunny ☀️ 29°C</p></div></div>
 <div id="accountModal" class="modal"><div class="inner"><div style="display:flex;justify-content:space-between"><h2>👤 Account - Khetiwa</h2><button class="btn btnRed" onclick="closeModal('accountModal')">X</button></div><input id="accName" placeholder="Naam"><input id="accVillage" placeholder="Gaon"><input id="accPhone" placeholder="Mobile"><button class="btn" onclick="saveAccount()">✅ Save Karo</button><p id="accMsg" style="color:green"></p></div></div>
 
-<!-- FULL ADMIN PANEL -->
 <div id="adminModal" class="modal"><div class="inner">
 <div style="display:flex;justify-content:space-between"><h2>⚙️ Admin - Khetiwa</h2><button class="btn btnRed" onclick="closeModal('adminModal')">X</button></div>
 <div id="loginBox"><input type="password" id="adminPass" placeholder="Password: 1234"><button class="btn" onclick="checkAdmin()">Login</button><p style="font-size:13px;color:#888">Password: 1234 hai - baad me badal dena</p></div>
 <div id="adminContent" style="display:none">
 <p style="background:#e8f5e9;padding:10px;border-radius:10px"><b>✅ Admin Login ho gaya - Khetiwa</b><br>Owner: Montque Global Pvt Ltd</p>
-
 <div class="statBox">
 <div class="stat"><b id="statSell">0</b>🧾 Sell Request</div>
 <div class="stat"><b id="statPashu">0</b>🐄 Pashu</div>
 <div class="stat"><b id="statDiary">0</b>📓 Diary Entry</div>
 <div class="stat"><b id="statOrder">0</b>🛒 Cart Order</div>
 </div>
-
 <div class="adminSec"><h3 style="margin:0">✏️ 1. Mandi Bhav Badlo - Padrauna</h3><p style="font-size:13px;color:#666">Yaha Rate badloge to Home Page par turant badal jayega</p>
 <select id="adminCropCat" onchange="loadAdminCrops()"><option value="anaj">🌾 अनाज</option><option value="sabzi">🥦 सब्जी</option><option value="fal">🍎 फल</option><option value="aushadhi">🌿 औषधि</option></select>
 <select id="adminCropName"></select>
@@ -171,22 +168,20 @@ input,textarea,select{width:100%;padding:12px;border:1px solid #ccc;border-radiu
 <button class="btn" onclick="updateMandiPrice()">✅ Rate Update Karo</button>
 <p id="adminPriceMsg" style="color:green"></p>
 </div>
-
-<div class="adminSec"><h3 style="margin:0">🧾 2. Sell Request - Kisan ne kya becha?</h3><div id="adminSellList"></div></div>
-
-<div class="adminSec"><h3 style="margin:0">🐄 3. Pashu Bazaar - List</h3><div id="adminPashuList"></div></div>
-
-<div class="adminSec"><h3 style="margin:0">📓 4. Khet Diary - Hisaab</h3><div id="adminDiaryList"></div></div>
-
+<div class="adminSec"><h3 style="margin:0">🧾 2. Sell Request</h3><div id="adminSellList"></div></div>
+<div class="adminSec"><h3 style="margin:0">🐄 3. Pashu Bazaar</h3><div id="adminPashuList"></div></div>
+<div class="adminSec"><h3 style="margin:0">📓 4. Khet Diary</h3><div id="adminDiaryList"></div></div>
 <div class="adminSec"><h3 style="margin:0">🗑️ 5. Danger Zone</h3>
-<button class="btn btnRed" onclick="adminClearAll()">🗑️ Sab Data Clear Karo - Sell + Pashu + Diary</button>
+<button class="btn btnRed" onclick="adminClearAll()">🗑️ Sab Data Clear Karo</button>
 <button class="btn" onclick="logoutAdmin()">Logout</button>
 </div>
-
 </div>
 </div></div>
 
 <script>
+// ===== GEMINI API KEY YAHAN DALO - SIRF YAHI 1 JAGAH =====
+const GEMINI_API_KEY = "AQ.Ab8RN6I04jsjsT_2CEhGaCOBxir8Zsg21fDq7iC5TZBKQrX5Lg";
+
 let MANDI_DATA = JSON.parse(localStorage.getItem('khetiwaMandi')||'null') || {
 "UP": {
 "Padrauna (Kushinagar)": {
@@ -224,60 +219,4 @@ function showAI(){ document.getElementById('aiBox').scrollIntoView({behavior:'sm
 function askQuick(t){ document.getElementById('q').value=t; askAI(); }
 function addCart(n,p){ cart.push({name:n,price:p}); renderCart(); alert(n+" Cart me jud gaya!"); }
 function renderCart(){ let el=document.getElementById('cartList'); if(el) el.innerHTML=cart.length?cart.map(c=>"<div>• "+c.name+" - Rs "+c.price+"</div>").join('')+"<b>Total: Rs "+cart.reduce((a,b)=>a+b.price,0)+"</b>":"Cart khali hai"; }
-function checkout(){ if(!cart.length){alert('Pehle kuch Add karo');return;} orderCount++; localStorage.setItem('orderCount',orderCount); alert('✅ Khetiwa Order ho gaya! Cash on Delivery'); cart=[]; renderCart(); renderAdmin(); closeModal('buyModal'); }
-function submitSell(){ let n=document.getElementById('sellName').value,c=document.getElementById('sellCrop').value,q=document.getElementById('sellQty').value,p=document.getElementById('sellPhone').value; if(!n||!q){alert('Naam aur Qtl bharo');return;} sells.push(n+" - "+c+" "+q+" Qtl - "+p); localStorage.setItem('sells',JSON.stringify(sells)); document.getElementById('sellMsg').innerText="✅ Ho gaya!"; renderSell(); renderAdmin(); }
-function renderSell(){ let el=document.getElementById('sellList'); if(el) el.innerHTML=sells.map(s=>"<div style='background:#f1f8e9;padding:8px;margin:4px;border-radius:8px'>🧾 "+s+"</div>").join(''); }
-function saveAccount(){ document.getElementById('accMsg').innerText="✅ Profile Save ho gaya"; }
-function checkAdmin(){ if(document.getElementById('adminPass').value==="1234"){ document.getElementById('loginBox').style.display='none'; document.getElementById('adminContent').style.display='block'; renderAdmin(); } else alert('Galat Password! 1234 hai'); }
-function logoutAdmin(){ document.getElementById('adminContent').style.display='none'; document.getElementById('loginBox').style.display='block'; }
-// ADMIN FUNCTIONS
-function renderAdmin(){
-document.getElementById('statSell').innerText=sells.length;
-document.getElementById('statPashu').innerText=pashuData.length;
-document.getElementById('statDiary').innerText=diaryData.length;
-document.getElementById('statOrder').innerText=orderCount;
-let asl=document.getElementById('adminSellList');
-if(asl) asl.innerHTML=sells.length?sells.map((s,i)=>"<div class='mandiRow'><span>"+s+"</span><button class='btn btnRed' style='padding:5px 10px' onclick='delSell("+i+")'>Delete</button></div>").join(''):"<p>Abhi koi Sell Request nahi hai</p>";
-let apl=document.getElementById('adminPashuList');
-if(apl) apl.innerHTML=pashuData.map((p,i)=>"<div class='mandiRow'><span>"+p.emoji+" "+p.name+" - Rs "+p.price+"</span><button class='btn btnRed' style='padding:5px 10px' onclick='delPashu("+i+")'>Delete</button></div>").join('');
-let adl=document.getElementById('adminDiaryList');
-if(adl) adl.innerHTML=diaryData.length?diaryData.map(d=>"<div class='mandiRow'><span>"+d.desc+"</span><span>Rs "+d.amt+" ("+d.type+")</span></div>").join(''):"<p>Koi Hisaab nahi hai</p>";
-loadAdminCrops();
-}
-function loadAdminCrops(){
-let cat=document.getElementById('adminCropCat').value;
-let sel=document.getElementById('adminCropName');
-if(!sel) return;
-sel.innerHTML='';
-let obj=MANDI_DATA["UP"]["Padrauna (Kushinagar)"][cat];
-for(let k in obj){ let o=document.createElement('option'); o.value=k; o.text=k+" - Rs "+obj[k]; sel.appendChild(o); }
-}
-function updateMandiPrice(){
-let cat=document.getElementById('adminCropCat').value;
-let name=document.getElementById('adminCropName').value;
-let price=document.getElementById('adminCropPrice').value;
-if(!price){alert('Naya Rate likho');return;}
-MANDI_DATA["UP"]["Padrauna (Kushinagar)"][cat][name]=parseInt(price);
-saveMandi(); renderHomeMandi(); loadAdminCrops();
-document.getElementById('adminPriceMsg').innerText="✅ "+name+" ka naya Rate Rs "+price+" ho gaya!";
-document.getElementById('adminCropPrice').value='';
-}
-function delSell(i){ if(confirm('Delete kar du?')){ sells.splice(i,1); localStorage.setItem('sells',JSON.stringify(sells)); renderSell(); renderAdmin(); } }
-function delPashu(i){ if(confirm('Pashu Delete kar du?')){ pashuData.splice(i,1); localStorage.setItem('pashuData',JSON.stringify(pashuData)); renderPashu(); renderAdmin(); } }
-function adminClearAll(){ if(confirm('Pakka? Sab Sell + Pashu + Diary delete ho jayega')){ sells=[]; pashuData=[]; diaryData=[]; localStorage.setItem('sells','[]'); localStorage.setItem('pashuData','[]'); localStorage.setItem('diaryData','[]'); renderSell(); renderPashu(); renderDiary(); renderAdmin(); alert('✅ Sab Clear ho gaya'); } }
-// PASHU
-function renderPashu(){ let el=document.getElementById('pashuList'); if(!el) return; el.innerHTML=pashuData.map(p=>"<div class='pashu'><div>"+p.emoji+"</div><div style='flex:1'><b>"+p.name+"</b><br>📍 "+p.place+" • 📞 "+p.phone+"</div><div><b style='color:#0a7a2f'>Rs "+p.price+"</b><br><button class='btn' onclick=\"alert('Call karo: "+p.phone+"')\">Call 📞</button></div></div>").join(''); }
-function filterPashu(){ let q=document.getElementById('pashuSearch').value.toLowerCase(); let el=document.getElementById('pashuList'); let filtered=pashuData.filter(p=>p.name.toLowerCase().includes(q)); el.innerHTML=filtered.map(p=>"<div class='pashu'><div>"+p.emoji+"</div><div style='flex:1'><b>"+p.name+"</b><br>📍 "+p.place+" • 📞 "+p.phone+"</div><div><b style='color:#0a7a2f'>Rs "+p.price+"</b></div></div>").join('')||"<p>Nahi mila</p>"; }
-function addPashu(){ let n=document.getElementById('pashuName').value, pr=document.getElementById('pashuPrice').value, ph=document.getElementById('pashuPhone').value; if(!n||!pr){alert('Naam aur Daam bharo');return;} let emoji=n.toLowerCase().includes('bakri')||n.toLowerCase().includes('bakra')?'🐐':n.toLowerCase().includes('bhains')?'🐃':'🐄'; pashuData.unshift({emoji:emoji,name:n,price:pr,phone:ph||'Nahi diya',place:'Padrauna, UP'}); localStorage.setItem('pashuData',JSON.stringify(pashuData)); document.getElementById('pashuMsg').innerText="✅ Pashu List ho gaya!"; renderPashu(); renderAdmin(); }
-// DIARY
-function renderDiary(){ let el=document.getElementById('diaryList'); if(!el) return; let kh=0, km=0; diaryData.forEach(d=>{ if(d.type==='kharcha') kh+=parseInt(d.amt); else km+=parseInt(d.amt); }); document.getElementById('totalKharcha').innerText=kh; document.getElementById('totalKamai').innerText=km; document.getElementById('totalBachat').innerText=km-kh; el.innerHTML=diaryData.map(d=>"<div class='mandiRow'><span>"+(d.type==='kharcha'?'🔴 ':'🟢 ')+d.desc+"</span><span>"+(d.type==='kharcha'?'- Rs ':'+ Rs ')+d.amt+"</span></div>").join('')||"<p>Abhi koi Hisaab nahi hai</p>"; }
-function addDiary(){ let d=document.getElementById('diaryDesc').value, a=document.getElementById('diaryAmt').value, t=document.getElementById('diaryType').value; if(!d||!a){alert('Naam aur Rupaye bharo');return;} diaryData.unshift({desc:d,amt:a,type:t}); localStorage.setItem('diaryData',JSON.stringify(diaryData)); document.getElementById('diaryDesc').value=''; document.getElementById('diaryAmt').value=''; renderDiary(); renderAdmin(); }
-function clearDiary(){ if(confirm('Sab Hisaab delete kar du?')){ diaryData=[]; localStorage.setItem('diaryData','[]'); renderDiary(); renderAdmin(); } }
-async function askAI(){ let qRaw=document.getElementById('q').value.trim(); if(!qRaw){alert('Pehle sawal likho');return;} let q=qRaw.toLowerCase(); let ansBox=document.getElementById('aiAns'); let offline=getOfflineJawab(q); if(offline){ ansBox.innerText=offline+"\n\n--- Khetiwa AI ---"; speak(offline); return; } ansBox.innerText="Khetiwa AI soch raha hai... 🤔"; try{ let prompt="Tum Khetiwa ke Kisan AI Advisor ho. Hindi Hinglish me simple jawab do. Sawal: "+qRaw; let res=await fetch("https://text.pollinations.ai/"+encodeURIComponent(prompt)+"?seed="+Math.floor(Math.random()*100000)); let text=await res.text(); if(text.includes("Free limit")){ ansBox.innerText="Thoda rukiye! 22 second baad phir dabao."; return; } ansBox.innerText=text; speak(text); }catch(e){ ansBox.innerText="OFFLINE: Urea 25kg + Zinc 5kg per acre dalo."; } }
-function getOfflineJawab(q){ for(let st in MANDI_DATA){ for(let md in MANDI_DATA[st]){ for(let cat in MANDI_DATA[st][md]){ for(let item in MANDI_DATA[st][md][cat]){ if(q.includes(item.toLowerCase())){ return "🏛️ "+item+" KA BHAV - Khetiwa:\n\n"+md+", "+st+": Rs "+MANDI_DATA[st][md][cat][item]+" / Qtl\n\nCategory: "+(cat==='anaj'?'Anaj':cat==='sabzi'?'Sabzi':cat==='fal'?'Fal':'Aushadhi'); } } } } } if(q.includes("pani")||q.includes("paani")) return "🌾 GEHU ME PANI:\n1. 21 din baad\n2. 42-45 din baad\n3. 65-75 din baad\n4. 90-95 din baad"; if(q.includes("peela")||q.includes("pila")) return "🌾 PEELA PAN: Urea 25kg + Zinc 5kg per acre dalo"; if(q.includes("keeda")||q.includes("kida")) return "🐛 KEEDA: Neem Oil 450ml per acre spray karo"; if(q.includes("khad")) return "🌱 KHAD: Buwai DAP 50kg + Urea 25kg, 21 din Urea 25kg, 45 din Urea 25kg"; if(q.includes("mandi")||q.includes("bhav")||q.includes("rate")) return "🏛️ KHETIWA MANDI: Home Page par 4 Tab hai - Anaj, Sabzi, Fal, Aushadhi."; return null; }
-function voiceAI(){ if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){alert('Voice nahi hai');return;} let Rec=window.SpeechRecognition||window.webkitSpeechRecognition; let r=new Rec(); r.lang='hi-IN'; r.start(); document.getElementById('aiAns').innerText="Sun raha hu... Bolo... 🎤"; r.onresult=function(e){ document.getElementById('q').value=e.results[0][0].transcript; askAI(); }; }
-function speak(t){ try{ let u=new SpeechSynthesisUtterance(t.substring(0,300)); u.lang='hi-IN'; speechSynthesis.speak(u); }catch(e){} }
-document.getElementById('photo').addEventListener('change', function(){ document.getElementById('aiAns').innerText="Photo mil gayi! 📸\nPhoto me kya dikh raha hai? Likhkar bhejo."; });
-</script>
-</body>
-</html>
+function checkout(){ if(!cart.length){alert('Pehle kuch Add karo');return;} orderCount++; localStorage.setItem('orderCount',orderCount); alert('✅ Khetiwa Order ho gaya! Cash on Delivery'); c
