@@ -15,7 +15,7 @@ body{margin:0;background:#eef7ee;padding-bottom:80px}
 .btn{background:#0a7a2f;color:#fff;border:0;padding:10px 18px;border-radius:10px;font-weight:bold;cursor:pointer;margin:2px}
 .btn2{background:#ff9800} .btnRed{background:#d32f2f} .btnBlue{background:#1565c0}
 .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;padding:0 12px}
-.card{background:#fff;border-radius:14px;padding:14px;text-align:center;font-weight:bold;cursor:pointer}
+.card{background:#fff;border-radius:14px;padding:14px;text-align:center;font-weight:bold;cursor:pointer;font-size:14px}
 .card span{font-size:30px;display:block}
 .box{background:#fff;margin:12px;border-radius:14px;padding:14px}
 input,textarea,select{width:100%;padding:12px;border:1px solid #ccc;border-radius:10px;margin:6px 0;font-size:16px}
@@ -29,6 +29,9 @@ input,textarea,select{width:100%;padding:12px;border:1px solid #ccc;border-radiu
 .mandiRow span:last-child{color:#0a7a2f}
 .catBtn{padding:8px 12px;border:1px solid #0a7a2f;border-radius:20px;background:#fff;color:#0a7a2f;font-weight:bold;cursor:pointer;margin:3px}
 .catBtn.active{background:#0a7a2f;color:#fff}
+.yojana{background:#fff7e6;border-left:5px solid #ff9800;padding:12px;border-radius:10px;margin:8px 0}
+.pashu{display:flex;gap:10px;background:#f9f9f9;padding:10px;border-radius:12px;margin:8px 0;align-items:center}
+.pashu img{font-size:40px}
 </style>
 </head>
 <body>
@@ -51,7 +54,10 @@ input,textarea,select{width:100%;padding:12px;border:1px solid #ccc;border-radiu
 <div class="card" onclick="openModal('mandiModal')"><span>🏛️</span>All India Mandi</div>
 <div class="card" onclick="showAI()"><span>🤖</span>AI Advisor</div>
 <div class="card" onclick="openModal('weatherModal')"><span>🌤️</span>Weather</div>
-<div class="card" onclick="openModal('mandiModal')"><span>🪙</span>Sona-Chandi</div>
+<div class="card" onclick="openModal('mandiModal')"><span>📋</span>1. Mandi Bhav</div>
+<div class="card" onclick="openModal('yojanaModal')"><span>🌾</span>2. Sarkari Yojana</div>
+<div class="card" onclick="openModal('pashuModal')"><span>🐄</span>3. Pashu Bazaar</div>
+<div class="card" onclick="openModal('diaryModal')"><span>📓</span>4. Khet Diary</div>
 </div>
 
 <div class="box" id="aiBox">
@@ -78,8 +84,9 @@ input,textarea,select{width:100%;padding:12px;border:1px solid #ccc;border-radiu
 
 <div class="nav"><span onclick="window.scrollTo(0,0)"><b>🏠 Home</b></span><span onclick="openModal('buyModal')">🛒 Buy</span><span onclick="showAI()">🤖 AI</span><span onclick="openModal('sellModal')">💰 Sell</span><span onclick="openModal('accountModal')">👤 Account</span></div>
 
+<!-- 1. MANDI BHAV MODAL -->
 <div id="mandiModal" class="modal"><div class="inner">
-<div style="display:flex;justify-content:space-between"><h2>🏛️ Khetiwa Mandi</h2><button class="btn btnRed" onclick="closeModal('mandiModal')">X</button></div>
+<div style="display:flex;justify-content:space-between"><h2>📋 1. Mandi Bhav - Khetiwa</h2><button class="btn btnRed" onclick="closeModal('mandiModal')">X</button></div>
 <input id="searchMandi" placeholder="🔍 Khojo - Ex: Aloo, Kela, Haldi, Gehu..." oninput="searchItem()">
 <select id="stateSel" onchange="loadMandis()"><option value="">-- State Chuno --</option></select>
 <select id="mandiSel" onchange="showMandiRate()"><option value="">-- Pehle State Chuno --</option></select>
@@ -91,6 +98,41 @@ input,textarea,select{width:100%;padding:12px;border:1px solid #ccc;border-radiu
 <button class="catBtn active" onclick="setCatModal('all')">📋 सब</button>
 </div>
 <div id="mandiResult"></div><div id="searchResult"></div>
+</div></div>
+
+<!-- 2. SARKARI YOJANA MODAL -->
+<div id="yojanaModal" class="modal"><div class="inner">
+<div style="display:flex;justify-content:space-between"><h2>🌾 2. Sarkari Yojana</h2><button class="btn btnRed" onclick="closeModal('yojanaModal')">X</button></div>
+<div class="yojana"><b>💰 PM Kisan Samman Nidhi</b><br>Rs 6000 / Saal - 3 Kist me<br>✅ Har Kisan ko milega<br><button class="btn" onclick="alert('PM Kisan: pmkisan.gov.in par Check karo')">Check Status →</button></div>
+<div class="yojana"><b>🌾 PM Fasal Bima Yojana</b><br>Fasal kharab hone par poora paisa<br>✅ Kharif + Rabi dono<br><button class="btn" onclick="alert('Fasal Bima: Najdiki CSC / Bank me jao')">Apply Karo →</button></div>
+<div class="yojana"><b>🚜 PM Kisan Tractor Yojana</b><br>Tractor par 50% Subsidy<br>✅ UP + MP me lagu<br><button class="btn" onclick="alert('Tractor Subsidy: Agriculture Dept me Form bharo')">Form Bharo →</button></div>
+<div class="yojana"><b>💧 Solar Pump Yojana</b><br>Solar Pump par 90% Subsidy<br>✅ Bijli ka kharcha 0<br><button class="btn" onclick="alert('Solar Pump: upagriculture.com par Apply karo')">Apply Karo →</button></div>
+<div class="yojana"><b>🌱 Kisan Credit Card - KCC</b><br>Rs 3 Lakh tak Loan - 4% Byaj<br>✅ Sirf 1 din me<br><button class="btn" onclick="alert('KCC: Apne Bank me KCC Form maango')">Bank Jao →</button></div>
+</div></div>
+
+<!-- 3. PASHU BAZAAR MODAL -->
+<div id="pashuModal" class="modal"><div class="inner">
+<div style="display:flex;justify-content:space-between"><h2>🐄 3. Pashu Bazaar</h2><button class="btn btnRed" onclick="closeModal('pashuModal')">X</button></div>
+<input id="pashuSearch" placeholder="🔍 Khojo - Gaay, Bhains, Bakri..." oninput="filterPashu()">
+<div id="pashuList"></div>
+<hr><h3>🐄 Apna Pashu Becho</h3>
+<input id="pashuName" placeholder="Ex: Murrah Bhains - 12 Litre Doodh">
+<input id="pashuPrice" placeholder="Daam - Ex: 75000">
+<input id="pashuPhone" placeholder="Mobile No">
+<button class="btn" onclick="addPashu()">🚀 Pashu List Karo</button>
+<p id="pashuMsg" style="color:green"></p>
+</div></div>
+
+<!-- 4. KHET DIARY MODAL -->
+<div id="diaryModal" class="modal"><div class="inner">
+<div style="display:flex;justify-content:space-between"><h2>📓 4. Khet Diary - Hisaab</h2><button class="btn btnRed" onclick="closeModal('diaryModal')">X</button></div>
+<div style="background:#e8f5e9;padding:12px;border-radius:12px;text-align:center"><b>💰 Total Kharcha: Rs <span id="totalKharcha">0</span></b><br><b>💵 Total Kamai: Rs <span id="totalKamai">0</span></b><br><b>📊 Bachat: Rs <span id="totalBachat">0</span></b></div>
+<input id="diaryDesc" placeholder="Ex: Urea Khad, Aloo Becha, Majdoor">
+<input id="diaryAmt" type="number" placeholder="Rupaye - Ex: 2500">
+<select id="diaryType"><option value="kharcha">🔴 Kharcha</option><option value="kamai">🟢 Kamai / Becha</option></select>
+<button class="btn" onclick="addDiary()">➕ Hisaab Jodo</button>
+<button class="btn btnRed" onclick="clearDiary()">🗑️ Sab Clear Karo</button>
+<div id="diaryList"></div>
 </div></div>
 
 <div id="buyModal" class="modal"><div class="inner">
@@ -138,7 +180,9 @@ function applyMandi(){ renderHomeMandi(); closeModal('mandiModal'); alert("✅ M
 function searchItem(){ let q=document.getElementById('searchMandi').value.trim().toLowerCase(); if(q.length<2){ document.getElementById('searchResult').innerHTML=""; return; } let out="<h3>🔍 '"+q+"' ka Bhav - All India</h3>"; let found=false; for(let st in MANDI_DATA){ for(let md in MANDI_DATA[st]){ for(let cat in MANDI_DATA[st][md]){ for(let item in MANDI_DATA[st][md][cat]){ if(item.toLowerCase().includes(q)){ out+="<div class='mandiRow'><span>"+item+" - "+md+", "+st+"</span><span>Rs "+MANDI_DATA[st][md][cat][item]+"</span></div>"; found=true; } } } } } if(!found) out+="<p>Nahi mila. Sahi naam likho - Ex: Aloo, Haldi, Kela</p>"; document.getElementById('searchResult').innerHTML=out; }
 renderHomeMandi();
 let cart=[]; let sells=JSON.parse(localStorage.getItem('sells')||'[]');
-function openModal(id){ document.getElementById(id).style.display='block'; renderSell(); renderCart(); }
+let pashuData=JSON.parse(localStorage.getItem('pashuData')||'[{"emoji":"🐄","name":"Murrah Bhains - 12 Litre Doodh","price":"75000","phone":"98765 43210","place":"Padrauna, UP"},{"emoji":"🐐","name":"Sirohi Bakri - 2 Bachhe","price":"12000","phone":"91234 56780","place":"Sehore, MP"},{"emoji":"🐄","name":"Gir Gaay - 10 Litre Doodh","price":"55000","phone":"99887 76655","place":"Padrauna, UP"}]');
+let diaryData=JSON.parse(localStorage.getItem('diaryData')||'[]');
+function openModal(id){ document.getElementById(id).style.display='block'; renderSell(); renderCart(); renderPashu(); renderDiary(); }
 function closeModal(id){ document.getElementById(id).style.display='none'; }
 function showAI(){ document.getElementById('aiBox').scrollIntoView({behavior:'smooth'}); }
 function askQuick(t){ document.getElementById('q').value=t; askAI(); }
@@ -150,6 +194,14 @@ function renderSell(){ let el=document.getElementById('sellList'); if(el) el.inn
 function saveAccount(){ document.getElementById('accMsg').innerText="✅ Profile Save ho gaya"; }
 function checkAdmin(){ if(document.getElementById('adminPass').value==="1234"){ document.getElementById('loginBox').style.display='none'; document.getElementById('adminContent').style.display='block'; } else alert('Galat Password! 1234 hai'); }
 function logoutAdmin(){ document.getElementById('adminContent').style.display='none'; document.getElementById('loginBox').style.display='block'; }
+// PASHU BAZAAR
+function renderPashu(){ let el=document.getElementById('pashuList'); if(!el) return; el.innerHTML=pashuData.map(p=>"<div class='pashu'><div>"+p.emoji+"</div><div style='flex:1'><b>"+p.name+"</b><br>📍 "+p.place+" • 📞 "+p.phone+"</div><div><b style='color:#0a7a2f'>Rs "+p.price+"</b><br><button class='btn' onclick=\"alert('Call karo: "+p.phone+"')\">Call 📞</button></div></div>").join(''); }
+function filterPashu(){ let q=document.getElementById('pashuSearch').value.toLowerCase(); let el=document.getElementById('pashuList'); let filtered=pashuData.filter(p=>p.name.toLowerCase().includes(q)); el.innerHTML=filtered.map(p=>"<div class='pashu'><div>"+p.emoji+"</div><div style='flex:1'><b>"+p.name+"</b><br>📍 "+p.place+" • 📞 "+p.phone+"</div><div><b style='color:#0a7a2f'>Rs "+p.price+"</b></div></div>").join('')||"<p>Nahi mila</p>"; }
+function addPashu(){ let n=document.getElementById('pashuName').value, pr=document.getElementById('pashuPrice').value, ph=document.getElementById('pashuPhone').value; if(!n||!pr){alert('Naam aur Daam bharo');return;} let emoji=n.toLowerCase().includes('bakri')||n.toLowerCase().includes('bakra')?'🐐':n.toLowerCase().includes('bhains')?'🐃':'🐄'; pashuData.unshift({emoji:emoji,name:n,price:pr,phone:ph||'Nahi diya',place:'Padrauna, UP'}); localStorage.setItem('pashuData',JSON.stringify(pashuData)); document.getElementById('pashuMsg').innerText="✅ Pashu List ho gaya!"; renderPashu(); }
+// KHET DIARY
+function renderDiary(){ let el=document.getElementById('diaryList'); if(!el) return; let kh=0, km=0; diaryData.forEach(d=>{ if(d.type==='kharcha') kh+=parseInt(d.amt); else km+=parseInt(d.amt); }); document.getElementById('totalKharcha').innerText=kh; document.getElementById('totalKamai').innerText=km; document.getElementById('totalBachat').innerText=km-kh; el.innerHTML=diaryData.map(d=>"<div class='mandiRow'><span>"+(d.type==='kharcha'?'🔴 ':'🟢 ')+d.desc+"</span><span>"+(d.type==='kharcha'?'- Rs ':'+ Rs ')+d.amt+"</span></div>").join('')||"<p>Abhi koi Hisaab nahi hai</p>"; }
+function addDiary(){ let d=document.getElementById('diaryDesc').value, a=document.getElementById('diaryAmt').value, t=document.getElementById('diaryType').value; if(!d||!a){alert('Naam aur Rupaye bharo');return;} diaryData.unshift({desc:d,amt:a,type:t}); localStorage.setItem('diaryData',JSON.stringify(diaryData)); document.getElementById('diaryDesc').value=''; document.getElementById('diaryAmt').value=''; renderDiary(); }
+function clearDiary(){ if(confirm('Sab Hisaab delete kar du?')){ diaryData=[]; localStorage.setItem('diaryData','[]'); renderDiary(); } }
 async function askAI(){ let qRaw=document.getElementById('q').value.trim(); if(!qRaw){alert('Pehle sawal likho');return;} let q=qRaw.toLowerCase(); let ansBox=document.getElementById('aiAns'); let offline=getOfflineJawab(q); if(offline){ ansBox.innerText=offline+"\n\n--- Khetiwa AI ---"; speak(offline); return; } ansBox.innerText="Khetiwa AI soch raha hai... 🤔"; try{ let prompt="Tum Khetiwa ke Kisan AI Advisor ho. Hindi Hinglish me simple jawab do. Sawal: "+qRaw; let res=await fetch("https://text.pollinations.ai/"+encodeURIComponent(prompt)+"?seed="+Math.floor(Math.random()*100000)); let text=await res.text(); if(text.includes("Free limit")){ ansBox.innerText="Thoda rukiye! 22 second baad phir dabao."; return; } ansBox.innerText=text; speak(text); }catch(e){ ansBox.innerText="OFFLINE: Urea 25kg + Zinc 5kg per acre dalo."; } }
 function getOfflineJawab(q){ for(let st in MANDI_DATA){ for(let md in MANDI_DATA[st]){ for(let cat in MANDI_DATA[st][md]){ for(let item in MANDI_DATA[st][md][cat]){ if(q.includes(item.toLowerCase())){ return "🏛️ "+item+" KA BHAV - Khetiwa:\n\n"+md+", "+st+": Rs "+MANDI_DATA[st][md][cat][item]+" / Qtl\n\nCategory: "+(cat==='anaj'?'Anaj':cat==='sabzi'?'Sabzi':cat==='fal'?'Fal':'Aushadhi'); } } } } } if(q.includes("pani")||q.includes("paani")) return "🌾 GEHU ME PANI:\n1. 21 din baad\n2. 42-45 din baad\n3. 65-75 din baad\n4. 90-95 din baad"; if(q.includes("peela")||q.includes("pila")) return "🌾 PEELA PAN: Urea 25kg + Zinc 5kg per acre dalo"; if(q.includes("keeda")||q.includes("kida")) return "🐛 KEEDA: Neem Oil 450ml per acre spray karo"; if(q.includes("khad")) return "🌱 KHAD: Buwai DAP 50kg + Urea 25kg, 21 din Urea 25kg, 45 din Urea 25kg"; if(q.includes("mandi")||q.includes("bhav")||q.includes("rate")) return "🏛️ KHETIWA MANDI: Home Page par 4 Tab hai - Anaj, Sabzi, Fal, Aushadhi."; return null; }
 function voiceAI(){ if(!('webkitSpeechRecognition' in window||'SpeechRecognition' in window)){alert('Voice nahi hai');return;} let Rec=window.SpeechRecognition||window.webkitSpeechRecognition; let r=new Rec(); r.lang='hi-IN'; r.start(); document.getElementById('aiAns').innerText="Sun raha hu... Bolo... 🎤"; r.onresult=function(e){ document.getElementById('q').value=e.results[0][0].transcript; askAI(); }; }
